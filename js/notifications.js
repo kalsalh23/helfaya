@@ -1,6 +1,5 @@
 /* ============================================================
    دليل حلفايا الطبي — إدارة الإشعارات (Push API / VAPID)
-   مجاني 100% — يتولاه المتصفح مباشرة
    ============================================================ */
 
 const VAPID_PUBLIC_KEY = "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEFLadp29wAw5jYiOMC2ttw3-M48n5hisr-sa_teQfIvHKL_ERY6dRiM-O7GT9ns-96Y6McQB5JyEuF2FUMrRyPw";
