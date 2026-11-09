@@ -1,5 +1,5 @@
 /* ============================================================
-   دليل صوران الطبي — إدارة الإشعارات (Push API / VAPID)
+   دليل حلفايا الطبي — إدارة الإشعارات (Push API / VAPID)
    مجاني 100% — يتولاه المتصفح مباشرة
    ============================================================ */
 
@@ -44,7 +44,7 @@ async function initNotifications() {
 async function toggle() {
   if (!pushState.supported) return { ok: false, error: "الإشعارات غير مدعومة في هذا المتصفح" };
   if (!pushState.enabled) {
-    if (pushState.permission === "denied") return { ok: false, error: "الإشعارات محظورة في هذا المتصفح — activeها من إعدادات الموقع" };
+    if (pushState.permission === "denied") return { ok: false, error: "الإشعارات محظورة في هذا المتصفح — فعّلها من إعدادات الموقع" };
     const perm = await Notification.requestPermission();
     pushState.permission = perm;
     if (perm !== "granted") return { ok: false, error: "لم يتم منح إذن الإشعارات" };
@@ -94,8 +94,8 @@ async function saveSubscriptionToServer(sub) {
 }
 
 async function unsubscribe() {
-if (!pushState.subscription) return { ok: false };
-    try {
+  if (!pushState.subscription) return { ok: false };
+  try {
     await pushState.subscription.unsubscribe();
     pushState.enabled = false;
     pushState.subscription = null;
@@ -110,7 +110,7 @@ function showLocalNotification(title, options = {}) {
     registration.showNotification(title, {
       icon: options.icon || "./assets/favicon.svg",
       badge: options.icon || "./assets/favicon.svg",
-      tag: options.tag || "ds-local",
+      tag: options.tag || "dh-local",
       data: { url: options.url || "./" },
       body: options.body || "",
       requireInteraction: options.requireInteraction || false,
@@ -119,7 +119,7 @@ function showLocalNotification(title, options = {}) {
   });
 }
 
-window.DSNotifications = {
+window.DHNotifications = {
   init: initNotifications,
   subscribe,
   unsubscribe,

@@ -1,5 +1,5 @@
 /* ============================================================
-   دليل صوران الطبي — منطق التطبيق (بدون أي مكتبات خارجية)
+   دليل حلفايا الطبي — منطق التطبيق (بدون أي مكتبات خارجية)
    توجيه هاش | بحث شامل | خريطة Leaflet | وضع ليلي | مناوبة
    ============================================================ */
 
@@ -20,7 +20,7 @@ const fmtPhone = (p) => String(p).replace(/^(\d{4})(\d{3})(\d{3})$/, "$1 $2 $3")
 const mapsLink = (lat, lng, address) =>
   lat && lng
     ? "https://www.google.com/maps?q=" + lat + "," + lng
-    : "https://www.google.com/maps?q=" + encodeURIComponent(address || "صوران");
+    : "https://www.google.com/maps?q=" + encodeURIComponent(address || "حلفايا");
 
 const todayIdx = () => new Date().getDay();
 const initials = (name) =>
@@ -107,10 +107,10 @@ function entityCard(e, { rank = false, hours = false, image = false } = {}) {
   const addr = [e.area, e.address].filter(Boolean).join(" — ");
 
   return `
-  <article class="entity-card" data-go="#/entity/${e.id}" style="--tc:${t.color}" tabindex="0" role="link" aria-label="${esc(e.name)}">
+  <article class="entity-card entity-card--photo" data-go="#/entity/${e.id}" style="--tc:${t.color}" tabindex="0" role="link" aria-label="${esc(e.name)}">
     ${e.featured && rank !== false && e.rank ? `<span class="rank-ribbon">${icon("star")} ${fmtNum(e.rank)}</span>` : ""}
     <div class="ec-flex">
-      <div class="ec-media"><img src="${esc(placeholderFor(e))}" alt="${esc(e.name)}" loading="lazy" /></div>
+      <div class="ec-media-photo"><img src="${esc(placeholderFor(e))}" alt="${esc(e.name)}" loading="lazy" /></div>
       <div class="ec-body">
         <p class="ec-name">${esc(e.name)}</p>
         <p class="ec-spec"><span class="ec-dot"></span>${esc(e.spec || t.label)}</p>
@@ -293,7 +293,7 @@ function mountMap(id, points) {
   if (!el) return;
   if (!window.L) {
     el.innerHTML = `<div class="map-fallback">${icon("map")} تعذّر تحميل الخريطة — تحقق من اتصالك بالإنترنت.<br>
-      <a href="https://www.openstreetmap.org/#map=15/${SITE.center[0]}/${SITE.center[1]}" target="_blank" rel="noopener">فتح موقع صوران في OpenStreetMap ↗</a></div>`;
+      <a href="https://www.openstreetmap.org/#map=15/${SITE.center[0]}/${SITE.center[1]}" target="_blank" rel="noopener">فتح موقع حلفايا في OpenStreetMap ↗</a></div>`;
     return;
   }
   destroyMap();
@@ -371,8 +371,8 @@ function viewHome() {
   return `
   <section class="container">
     <div class="hero">
-      <span class="hero-badge">${icon("shield")} دليل صوران الطبي</span>
-      <h1>كل الخدمات الطبية في صوران — في مكان واحد</h1>
+      <span class="hero-badge">${icon("shield")} دليل حلفايا الطبي</span>
+      <h1>كل الخدمات الطبية في حلفايا — في مكان واحد</h1>
       <p class="hero-sub">ابحث عن طبيب أو صيدلية، واتصل مباشرة.</p>
       <div class="hero-search">
         <div class="hero-search-box">
@@ -437,7 +437,7 @@ function viewHome() {
     </div>
     <div class="map-wrap">
       <div class="map-head">
-        <h3>${icon("map")} خريطة صوران الصحية</h3>
+        <h3>${icon("map")} خريطة حلفايا الصحية</h3>
         <div class="map-legend">${legend}</div>
       </div>
       <div id="homeMap"></div>
@@ -593,9 +593,9 @@ function bindOncallCarousel() {
 }
 /* ================= العرض: قوائم الجهات ================= */
 const TYPE_INTRO = {
-  doctor: "عيادات وأطباء داخل مدينة صوران مع التخصصات وأوقات العمل وأرقام الاتصال المباشر.",
+  doctor: "عيادات وأطباء داخل مدينة حلفايا مع التخصصات وأوقات العمل وأرقام الاتصال المباشر.",
   pharmacy: "صيدليات المدينة مع أوقات العمل وشارة «مناوبة اليوم» للصيدليات المناوبة حالياً.",
-  hospital: "المشافي والمستوصفات في صوران: خدماتها وأرقامها وأوقات العيادات والطوارئ.",
+  hospital: "المشافي والمستوصفات في حلفايا: خدماتها وأرقامها وأوقات العيادات والطوارئ.",
   lab: "مخابر التحاليل الطبية داخل المدينة مع الخدمات المتوفرة وأوقات السحب.",
   radiology: "مراكز الأشعة والسونار: أجهزتها وخدماتها ومواعيد عملها.",
   "health-center": "المراكز الصحية الحكومية والأهلية: تطعيمات، رعاية أولية، وتثقيف صحي.",
@@ -651,7 +651,7 @@ function viewList(type, params) {
       <nav class="breadcrumb" aria-label="مسار التنقل">
         <a href="#/">ال Principal</a> ${icon("chevLeft")} <span>${t.plural}</span>
       </nav>
-      <h1>${icon(t.icon)} ${t.plural} في صوران</h1>
+      <h1>${icon(t.icon)} ${t.plural} في حلفايا</h1>
       <p>${TYPE_INTRO[type]}</p>
     </div>
   </section>
@@ -749,7 +749,7 @@ return `
         <a href="#/">الرئيسية</a> ${icon("chevLeft")} <a href="#/pharmacies">الصيدليات</a> ${icon("chevLeft")} <span>المناوبة</span>
       </nav>
       <h1>${icon("ambulance")} الصيدليات المناوبة</h1>
-      <p>جدول مناوبة الصيدليات في صوران — اختر اليوم أو غداً.</p>
+      <p>جدول مناوبة الصيدليات في حلفايا — اختر اليوم أو غداً.</p>
     </div>
   </section>
   <div class="container oncall-page" style="padding:26px 0 56px">
@@ -850,7 +850,7 @@ function afterEntity(id) {
   if (share) share.addEventListener("click", async () => {
     const url = location.href;
     if (navigator.share) {
-      try { await navigator.share({ title: e.name + " — دليل صوران الطبي", url }); } catch (_) {}
+      try { await navigator.share({ title: e.name + " — دليل حلفايا الطبي", url }); } catch (_) {}
     } else {
       navigator.clipboard && navigator.clipboard.writeText(url);
       showToast("تم نسخ رابط الصفحة");
@@ -963,7 +963,7 @@ function viewSearch(params) {
 
   return `
   <div class="container page-wrap search-page">
-    <h1 class="page-title">البحث في دليل صوران الطبي</h1>
+    <h1 class="page-title">البحث في دليل حلفايا الطبي</h1>
     <form class="search-big" id="searchBigForm">
       ${icon("search")}
       <input id="searchBigInput" type="search" placeholder="ابحث عن طبيب، اختصاص، عيادة، صيدلية أو خدمة طبية..." value="${esc(q)}" autocomplete="off" />
@@ -1020,8 +1020,8 @@ function viewAbout() {
 
     <div class="about-hero">
       <span class="pill-badge">${icon("sparkles")} عن المنصة</span>
-      <h1>دليل صوران الطبي</h1>
-      <p>منصة مجتمعية مجانية تجمع كل الخدمات الصحية في مدينة صوران — أطباء، صيدليات، مشافي، مخابر، أشعة ومراكز صحية — في مكان واحد، ببيانات محدّثة وخريطة تفاعلية وجدول مناوبة أسبوعي.</p>
+      <h1>دليل حلفايا الطبي</h1>
+      <p>منصة مجتمعية مجانية تجمع كل الخدمات الصحية في مدينة حلفايا — أطباء، صيدليات، مشافي، مخابر، أشعة ومراكز صحية — في مكان واحد، ببيانات محدّثة وخريطة تفاعلية وجدول مناوبة أسبوعي.</p>
     </div>
 
     <div class="about-stats">
@@ -1035,11 +1035,11 @@ function viewAbout() {
     <div class="card about-card">
       <div class="about-card-head">
         <span class="a-icon">${icon("heart")}</span>
-        <h2>ما هي دليل صوران الطبي؟</h2>
+        <h2>ما هي دليل حلفايا الطبي؟</h2>
       </div>
       <p class="about-text">
-        في كل يوم يبحث أهالي مدينة صوران عن أقرب عيادة أسنان، أو مخبر يعمل مساءً، أو صيدلية مناوبة للّيلة،
-        أو رقم مشفى لطلب الإسعاف. دليل صوران الطبي يجمع هذه المعلومات المتفرقة في مكان واحد:
+        في كل يوم يبحث أهالي مدينة حلفايا عن أقرب عيادة أسنان، أو مخبر يعمل مساءً، أو صيدلية مناوبة للّيلة،
+        أو رقم مشفى لطلب الإسعاف. دليل حلفايا الطبي يجمع هذه المعلومات المتفرقة في مكان واحد:
         منظّمة، محدّثة، ومجانية للجميع — من أبناء المدينة ولأهلها.
       </p>
     </div>
@@ -1060,7 +1060,7 @@ function viewAbout() {
           <span class="dev-ic">${icon("code")}</span>
           <div>
             <p class="dev-tag">بطاقة المطوّر</p>
-            <h3>مطوّر وتقني دليل صوران الطبي</h3>
+            <h3>مطوّر وتقني دليل حلفايا الطبي</h3>
           </div>
         </div>
         <div class="dev-body">
@@ -1104,7 +1104,7 @@ function viewPackages() {
     </div>
     <div class="plans-grid">
       ${PACKAGES.map((p) => {
-        const waMsg = waHref(SITE.developer.phone, "مرحباً، أرغب بالاشتراك في «" + p.name + "» في دليل صوران الطبي");
+        const waMsg = waHref(SITE.developer.phone, "مرحباً، أرغب بالاشتراك في «" + p.name + "» في دليل حلفايا الطبي");
         const inner = `
           <span class="plan-ic ${p.id}">${icon(p.id === "free" ? "lock" : p.id === "pro" ? "sparkles" : "crown")}</span>
           <h3>${esc(p.name)}</h3>
@@ -1118,7 +1118,7 @@ function viewPackages() {
           : `<a class="plan-card ${p.featured ? "is-gold" : ""}" href="${waMsg}" target="_blank" rel="noopener">${inner}</a>`;
       }).join("")}
     </div>
-    <p class="plans-note">لم تجد جهتك في الدليل؟ <a href="${waHref(SITE.developer.phone, "مرحباً، أرغب بإضافة جهتي إلى دليل صوران الطبي")}" target="_blank" rel="noopener">تواصل مع الإدارة</a> لإضافتها أولاً، ثم قدّم طلب الترقية.</p>
+    <p class="plans-note">لم تجد جهتك في الدليل؟ <a href="${waHref(SITE.developer.phone, "مرحباً، أرغب بإضافة جهتي إلى دليل حلفايا الطبي")}" target="_blank" rel="noopener">تواصل مع الإدارة</a> لإضافتها أولاً، ثم قدّم طلب الترقية.</p>
   </div>`;
 }
 
@@ -1169,7 +1169,7 @@ function view404() {
 function viewPrivacy() {
   return pageShell("سياسة الخصوصية", "shield", `
     <h2>مقدمة</h2>
-    <p>دليل صوران الطبي مشروع مجتمعي يحترم خصوصية زوّاره. توضح هذه السياسة ما نجمعه وكيف نتعامل معه.</p>
+    <p>دليل حلفايا الطبي مشروع مجتمعي يحترم خصوصية زوّاره. توضح هذه السياسة ما نجمعه وكيف نتعامل معه.</p>
     <h2>ما لا نجمعه</h2>
     <ul>
       <li>لا نطلب إنشاء حساب للاستفادة من الدليل، ولا نتتبع موقعك الجغرافي.</li>
@@ -1190,9 +1190,9 @@ function viewPrivacy() {
 function viewTerms() {
   return pageShell("شروط الاستخدام", "doc", `
     <h2>قبول الشروط</h2>
-    <p>باستخدامك دليل صوران الطبي فإنك توافق على هذه الشروط. إن لم توافق عليها فالرجاء التوقف عن استخدام الموقع.</p>
+    <p>باستخدامك دليل حلفايا الطبي فإنك توافق على هذه الشروط. إن لم توافق عليها فالرجاء التوقف عن استخدام الموقع.</p>
     <h2>طبيعة الخدمة</h2>
-    <p>الدليل منصة معلوماتية توجيهية تعرض بيانات جهات طبية في مدينة صوران. نحن وسيط معلوماتي فقط ولا نقدّم خدمة طبية ولا نضمن نتائج التعامل مع الجهات المدرجة.</p>
+    <p>الدليل منصة معلوماتية توجيهية تعرض بيانات جهات طبية في مدينة حلفايا. نحن وسيط معلوماتي فقط ولا نقدّم خدمة طبية ولا نضمن نتائج التعامل مع الجهات المدرجة.</p>
     <h2>استخدامات مقبولة</h2>
     <ul>
       <li>يُمنع استخدام الدليل لأي غرض مخالف للقانون أو للإضرار بالجهات المدرجة.</li>
@@ -1228,7 +1228,7 @@ function viewDisclaimer() {
 function viewContentPolicy() {
   return pageShell("سياسة المحتوى الطبي", "shieldPlus", `
     <h2>مبدأنا</h2>
-    <p>المحتوى الصحي في دليل صوران الطبي يخضع لمعايير تحرير واضحة لضمان ألا يصل لأهالي المدينة أي معلومة مضللة أو إعلانية مضلِّبة.</p>
+    <p>المحتوى الصحي في دليل حلفايا الطبي يخضع لمعايير تحرير واضحة لضمان ألا يصل لأهالي المدينة أي معلومة مضللة أو إعلانية مضلِّبة.</p>
     <h2>معايير نشر الإرشادات</h2>
     <ul>
       <li><strong>علمية ومبسطة:</strong> معلومات مستندة إلى مبادئ طب أولي متعارف عليها، بصيغة يفهمها غير المختص.</li>
@@ -1478,7 +1478,7 @@ async function bindDashboard() {
   const accs = await dashApi("/rest/v1/entity_accounts?select=entity_id");
   if (!Array.isArray(accs)) { panel.innerHTML = entPanelErr("تعذر التحقق من حسابك"); return; }
   if (!accs.length) {
-    const wa = waHref(SITE.developer.phone, "مرحباً، حساب جهتي غير مرتبط بصفحتي في دليل صوران — بريدي: " + (s.email || ""));
+    const wa = waHref(SITE.developer.phone, "مرحباً، حساب جهتي غير مرتبط بصفحتي في دليل حلفايا — بريدي: " + (s.email || ""));
     panel.innerHTML = `
     <div class="empty-state">
       ${icon("info")}<h3>حسابك غير مرتبط بجهة بعد</h3>
@@ -1654,7 +1654,7 @@ function viewFeatured() {
     <div class="container">
       <div class="featured-head">
         <a class="featured-back" href="#/" aria-label="الرئيسية">${icon("chevRight")}</a>
-        <div><h1>${icon("star")} المميزون</h1><p>أفضل الأطباء والصيدليات في صوران</p></div>
+        <div><h1>${icon("star")} المميزون</h1><p>أفضل الأطباء والصيدليات في حلفايا</p></div>
       </div>
     </div>
     <section class="section container" style="padding-top:8px">
@@ -1720,7 +1720,7 @@ function render() {
 
   if (!route) {
     view.innerHTML = view404();
-    document.title = "الصفحة غير موجودة — دليل صوران الطبي";
+    document.title = "الصفحة غير موجودة — دليل حلفايا الطبي";
     window.scrollTo({ top: 0 });
     setActiveNav("");
     return;
@@ -1781,25 +1781,46 @@ function showBootError(err) {
 window.addEventListener("error", function(e){ try{ showBootError(e && (e.error || e.message)); }catch(_){} });
 window.addEventListener("unhandledrejection", function(e){ try{ showBootError(e && e.reason); }catch(_){} });
 function hideSplash() {
-  var el = document.getElementById("splashScreen");
   if (!el || el.__hidden) return;
   el.__hidden = true;
   el.classList.add("is-hidden");
   setTimeout(function(){ if (el && el.parentNode) el.parentNode.removeChild(el); }, 500);
 }
 function scheduleSplash() { if (window.__hideSplash) return; setTimeout(hideSplash, 4000); } window.__appHideSplash = hideSplash;
+/* ================= الإشعارات: التهيئة وزر الجرس ================= */
+async function initNotificationsUI() {
+  if (!window.DSNotifications) return;
+  await window.DSNotifications.init();
+  const btn = $("#btnNotify");
+  const dot = $("#notifyDot");
+  if (!btn) return;
+  if (window.DSNotifications.state.enabled && dot) dot.hidden = false;
+  btn.addEventListener("click", async () => {
+    const res = await window.DSNotifications.toggle();
+    if (res.ok) {
+      if (dot) dot.hidden = false;
+      if (res.activated) showToast("تم تفعيل الإشعارات — ستصلك تنبيهات المناوبة والإعلانات", "ok");
+      else if (res.deactivated) { dot.hidden = true; showToast("تم إلغاء تفعيل الإشعارات", "ok"); }
+      else showToast("تم تحديث إعدادات الإشعارات", "ok");
+    } else {
+      showToast(res.error || "تعذر تحديث الإشعارات", "warn");
+    }
+  });
+}
+
 /* ================= الإقلاع ================= */
 (async function boot() {
   try {
     const year = $('#year');
-  if (year) year.textContent = fmtNum(new Date().getFullYear());
+    if (year) year.textContent = fmtNum(new Date().getFullYear());
 
-  initHeader();
-  window.addEventListener("hashchange", render);
-  if (!location.hash) location.replace("#/");
+    initHeader();
+    await initNotificationsUI();
+    window.addEventListener("hashchange", render);
+    if (!location.hash) location.replace("#/");
 
-  /* جلب البيانات الحية من Supabase — عند الفشل تُستخدم بيانات data.js */
-  try { await loadRemoteData(); } catch (_) {}
-  render();
-  } catch (err) { showBootError(err); }
+    /* جلب البيانات الحية من Supabase — عند الفشل تُستخدم بيانات data.js */
+    try { await loadRemoteData(); } catch (_) {}
+    render();
+    } catch (err) { showBootError(err); }
 })();

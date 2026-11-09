@@ -1,12 +1,25 @@
 {
-  "name": "dalilshoran-main",
+  "name": "dalilhalfaya",
   "version": "1.0.0",
-  "description": "> **الموقع الحي:** https://dalilshoran.vercel.app > **المستودع:** https://github.com/kalsalh23/dalilshoran > **قاعدة البيانات:** Supabase (entities + oncall + faq + questions + messages)",
+  "description": "> **الموقع الحي:** https://dalilhalfaya.vercel.app > **المستودع:** https://github.com/kalsalh23/helfaya > **قاعدة البيانات:** Supabase (entities + oncall + faq + questions + messages)",
   "license": "ISC",
   "author": "",
   "type": "commonjs",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "cap:add": "npx cap add android",
+    "cap:copy": "npx cap copy",
+    "cap:sync": "npx cap sync",
+    "cap:open": "npx cap open android"
+  },
+  "devDependencies": {
+    "@capacitor/android": "^7.0.0",
+    "@capacitor/cli": "^7.0.0",
+    "@capacitor/core": "^7.0.0"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.119.0",
+    "web-push": "^4.0.0"
   }
 }

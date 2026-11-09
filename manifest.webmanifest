@@ -1,15 +1,15 @@
 {
-  "name": "دليل صوران الطبي",
-  "short_name": "دليل صوران",
-  "description": "الدليل الطبي لمدينة صوران: أطباء، صيدليات، مناوبة، مشافٍ، مخابر، أشعة ومراكز صحية — ابحث، اتصل، واعرف المناوبة اليوم.",
+  "name": "دليل حلفايا الطبي",
+  "short_name": "دليل حلفايا",
+  "description": "الدليل الطبي لمدينة حلفايا: أطباء، صيدليات، مناوبة، مشافٍ، مخابر، أشعة ومراكز صحية — ابحث، اتصل، واعرف المناوبة اليوم.",
   "lang": "ar",
   "dir": "rtl",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#F7F5F1",
-  "theme_color": "#0E6F78",
+  "background_color": "#F8FAFC",
+  "theme_color": "#1E3A8A",
   "icons": [
     {
       "src": "assets/favicon.svg",

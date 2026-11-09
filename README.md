@@ -1,11 +1,11 @@
-# دليل صوران الطبي 🏥
+# دليل حلفايا الطبي 🏥
 
-> **الموقع الحي:** https://dalilshoran.vercel.app
-> **المستودع:** https://github.com/kalsalh23/dalilshoran
+> **الموقع الحي:** https://dalilhalfaya.vercel.app
+> **المستودع:** https://github.com/kalsalh23/helfaya
 > **قاعدة البيانات:** Supabase (entities + oncall + faq + questions + messages)
 
-دليل طبي متكامل لمدينة **صوران** (ريف حماة الشمالي) — مستوحى من فكرة «دليلك الطبي» لكن بهوية بصرية وتصميم مختلفين تماماً:
-هوية **كحلي/كوبالت + كهرماني**، خطوط **Cairo + Tajawal**، وضع **ليلي**، بحث شامل فوري (Ctrl+K)، خريطة تفاعلية، وجدول صيدليات المناوبة الأسبوعي.
+دليل طبي متكامل لمدينة **حلفايا** (محافظة حماة — منطقة محردة) — بهوية بصرية وتصميم حديث:
+هوية **إنديغو طبي عميق + مرجاني دافئ**، خطوط **Cairo + Tajawal**، وضع **ليلي**، بحث شامل فوري (Ctrl+K)، خريطة تفاعلية، وجدول صيدليات المناوبة الأسبوعي.
 
 ## ✨ المزايا
 
@@ -62,8 +62,8 @@ powershell -NoProfile -ExecutionPolicy Bypass -File serve.ps1
 ألوان الموقع كلها متغيرات في أعلى **`css/style.css`** تحت `:root` (الوضع النهاري) و`[data-theme="dark"]` (الليلي):
 
 ```css
---brand-600: #2B4BC4;   /* اللون الأساسي */
---accent-500: #F59E0B;  /* لون التمييز الكهرماني */
+--primary: #1E3A8A;      /* اللون الأساسي — إنديغو طبي عميق */
+--accent: #F97316;       /* لون التمييز — مرجاني دافئ */
 ```
 
 غيّر هذه القيم فقط وسيتحول الموقع كاملاً.
@@ -79,18 +79,30 @@ powershell -NoProfile -ExecutionPolicy Bypass -File serve.ps1
 ## 📁 البنية
 
 ```
-dalilshoran/
+dalilhalfaya/
 ├── index.html            # الهيكل والواجهة العامة
+├── admin.html            # لوحة إدارة الجهات
 ├── css/style.css         # الهوية البصرية كاملة
+├── css/admin.css         # أنماط لوحة الإدارة
 ├── js/config.js          # إعدادات Supabase العامة (anon)
 ├── js/data.js            # البيانات المحلية الاحتياطية
 ├── js/app.js             # التوجيه والمنطق + مزامنة Supabase
+├── js/admin.js           # منطق لوحة الإدارة
+├── js/notifications.js   # إشعارات Push
 ├── assets/favicon.svg    # الأيقونة
 ├── manifest.webmanifest  # PWA
+├── sw.js                 # Service Worker
 ├── supabase/schema.sql   # مخطط قاعدة البيانات + RLS
 ├── supabase/seed.sql     # البيانات الأولية
+├── api/                  # Vercel Serverless Functions
+│   ├── subscribe.js
+│   ├── send-push.js
+│   └── cron-oncall.js
+├── capacitor.config.ts   # إعداد تطبيق Android
+├── package.json          # Capacitor + Supabase client
+├── vercel.json           # إعداد نشر Vercel
 └── serve.ps1             # خادم محلي اختياري (PowerShell)
 ```
 
 ---
-© فريق دليل صوران الطبي — مشروع مجتمعي مجاني لأهالي صوران.
+© فريق دليل حلفايا الطبي — مشروع مجتمعي مجاني لأهالي حلفايا.
