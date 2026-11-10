@@ -156,6 +156,9 @@ small { font-size: 12.5px; color: var(--muted); }
 a { color: var(--primary); text-decoration: none; transition: color var(--transition-fast); }
 a:hover { color: var(--primary-dark); }
 
+/* Icons base */
+.ic { display: inline-flex; width: 1.5em; height: 1.5em; flex: none; vertical-align: middle; color: inherit; }
+
 /* Selection */
 ::selection { background: var(--primary-alpha); color: var(--primary-darker); }
 ::-moz-selection { background: var(--primary-alpha); color: var(--primary-darker); }
@@ -490,77 +493,89 @@ button { cursor: pointer; border: 0; background: none; }
 @media (max-width: 640px) { .cards-grid { grid-template-columns: 1fr; gap: var(--space-3); } }
 
 /* ============================================================
-   Hero Carousel (مطابق لـ dalilshoran)
+   Hero Carousel — App Store Style Promotional Banners
    ============================================================ */
 .hero-carousel {
   position: relative;
-  border-radius: var(--r-2xl);
-  overflow: hidden;
-  background: linear-gradient(135deg, var(--primary-soft) 0%, var(--surface) 100%);
-  border: 1px solid var(--border);
-  box-shadow: var(--shadow-card);
   margin-bottom: var(--space-8);
 }
 .hero-carousel__track { display: flex; transition: transform var(--transition-slow); }
 .hero-carousel__slide {
   flex: 0 0 100%; min-width: 100%;
-  display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-8);
-  align-items: center; padding: var(--space-8) clamp(var(--space-6), 5vw, var(--space-12));
+  position: relative;
+  border-radius: var(--r-2xl);
+  overflow: hidden;
+  background: var(--surface);
 }
-.hero-carousel__content { display: flex; flex-direction: column; gap: var(--space-4); max-width: 520px; }
+.hero-carousel__bg {
+  position: absolute; inset: 0; z-index: 0;
+  background-size: cover; background-position: center; background-repeat: no-repeat;
+}
+.hero-carousel__bg::after {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(2, 119, 189, 0.92) 0%, rgba(0, 168, 150, 0.88) 100%);
+}
+.hero-carousel__content {
+  position: relative; z-index: 1;
+  padding: clamp(var(--space-6), 6vw, var(--space-10)) clamp(var(--space-4), 5vw, var(--space-8));
+  color: #fff; text-align: start;
+}
 .hero-carousel__badge {
   display: inline-flex; align-items: center; gap: var(--space-2);
-  background: var(--primary); color: #fff;
+  background: rgba(255, 255, 255, 0.22); color: #fff;
   padding: 6px 14px; border-radius: var(--r-full);
-  font-size: 12.5px; font-weight: 700; width: fit-content;
+  font-size: 12px; font-weight: 700; width: fit-content;
+  backdrop-filter: blur(8px); border: 1px solid rgba(255, 255, 255, 0.18);
+  margin-bottom: var(--space-3);
 }
 .hero-carousel__badge .ic { width: 14px; height: 14px; }
-.hero-carousel__title { font-size: clamp(24px, 3.5vw, 36px); line-height: 1.2; margin: 0; }
-.hero-carousel__subtitle { font-size: clamp(14.5px, 1.6vw, 17px); line-height: 1.7; color: var(--muted); margin: 0; max-width: 48ch; }
-.hero-carousel__actions { display: flex; flex-wrap: wrap; gap: var(--space-3); margin-top: var(--space-2); }
+.hero-carousel__title {
+  font-size: clamp(26px, 4.5vw, 40px); line-height: 1.15; margin: 0 0 var(--space-2);
+  font-weight: 800; letter-spacing: -0.02em; text-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+.hero-carousel__subtitle {
+  font-size: clamp(15px, 2vw, 19px); line-height: 1.7; margin: 0 0 var(--space-5);
+  color: rgba(255, 255, 255, 0.92); max-width: 55ch; text-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
+}
+.hero-carousel__actions { display: flex; flex-wrap: wrap; gap: var(--space-3); }
 .btn-hero {
   display: inline-flex; align-items: center; gap: var(--space-2);
-  border-radius: var(--r-md); padding: 12px 22px;
-  font-size: 14px; font-weight: 700; white-space: nowrap;
-  transition: all var(--transition-fast);
+  border-radius: var(--r-md); padding: 14px 26px;
+  font-size: 15px; font-weight: 700; white-space: nowrap;
+  transition: all var(--transition-fast); box-shadow: var(--shadow-card);
 }
 .btn-hero .ic { width: 18px; height: 18px; }
-.btn-hero--primary { background: var(--primary); color: #fff; }
-.btn-hero--primary:hover { background: var(--primary-dark); }
-.btn-hero--outline { border: 1.5px solid var(--border-strong); background: var(--surface); color: var(--ink); }
-.btn-hero--outline:hover { border-color: var(--primary); color: var(--primary-dark); }
-.hero-carousel__visual { position: relative; }
-.hero-carousel__image { border-radius: var(--r-xl); overflow: hidden; box-shadow: var(--shadow-pop); }
-.hero-carousel__image img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.btn-hero--primary { background: #fff; color: var(--primary); }
+.btn-hero--primary:hover { background: var(--surface-2); color: var(--primary-dark); transform: translateY(-1px); box-shadow: var(--shadow-pop); }
+.btn-hero--outline { border: 2px solid rgba(255, 255, 255, 0.35); background: rgba(255, 255, 255, 0.1); color: #fff; backdrop-filter: blur(8px); }
+.btn-hero--outline:hover { background: rgba(255, 255, 255, 0.22); border-color: rgba(255, 255, 255, 0.6); }
 .hero-carousel__dots {
   display: flex; justify-content: center; gap: 7px;
-  position: absolute; bottom: var(--space-4); inset-inline: 0; z-index: 10;
+  position: absolute; bottom: var(--space-5); inset-inline: 0; z-index: 10;
   padding: 0 var(--space-4);
 }
 .hero-carousel__dot {
   width: 8px; height: 8px; border-radius: 50%;
-  background: var(--border-strong); border: 0; cursor: pointer;
+  background: rgba(255, 255, 255, 0.45); border: 0; cursor: pointer;
   transition: all var(--transition);
 }
-.hero-carousel__dot.active { background: var(--primary); width: 22px; border-radius: var(--r-full); }
+.hero-carousel__dot.active { background: #fff; width: 24px; border-radius: var(--r-full); }
 .hero-carousel__arrow {
   position: absolute; top: 50%; transform: translateY(-50%); z-index: 10;
-  width: 44px; height: 44px; border-radius: 50%;
+  width: 48px; height: 48px; border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
-  background: rgba(255, 255, 255, 0.9); color: var(--ink);
-  box-shadow: var(--shadow-card); border: 1px solid var(--border);
-  transition: all var(--transition-fast);
+  background: rgba(255, 255, 255, 0.92); color: var(--ink);
+  box-shadow: var(--shadow-pop); border: 1px solid rgba(255, 255, 255, 0.3);
+  transition: all var(--transition-fast); backdrop-filter: blur(6px);
 }
-.hero-carousel__arrow:hover { background: var(--primary); color: #fff; }
+.hero-carousel__arrow:hover { background: #fff; color: var(--primary); transform: translateY(-50%) scale(1.06); }
 .hero-carousel__arrow--prev { inset-inline-start: var(--space-4); }
 .hero-carousel__arrow--next { inset-inline-end: var(--space-4); }
 .hero-carousel__arrow .ic { width: 22px; height: 22px; }
-@media (max-width: 900px) {
-  .hero-carousel__slide { grid-template-columns: 1fr; gap: var(--space-6); text-align: center; padding: var(--space-6) var(--space-4); }
-  .hero-carousel__content { max-width: none; align-items: center; }
+@media (max-width: 640px) {
+  .hero-carousel__content { padding: var(--space-6) var(--space-4); text-align: center; }
   .hero-carousel__actions { justify-content: center; }
-  .hero-carousel__visual { order: -1; max-width: 320px; margin-inline: auto; }
-  .hero-carousel__arrow { width: 38px; height: 38px; }
+  .hero-carousel__arrow { width: 40px; height: 40px; }
   .hero-carousel__arrow--prev { inset-inline-start: var(--space-2); }
   .hero-carousel__arrow--next { inset-inline-end: var(--space-2); }
 }

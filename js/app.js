@@ -55,6 +55,7 @@ const ICONS = {
   mail: '<rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 6l-10 7L2 6"/>',
   chevDown: '<path d="M6 9l6 6 6-6"/>',
   chevLeft: '<path d="M15 18l-6-6 6-6"/>',
+  chevRight: '<path d="M9 18l6-6-6-6"/>',
   arrowLeft: '<path d="M19 12H5M12 19l-7-7 7-7"/>',
   briefcase: '<rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/>',
   alert: '<path d="M10.3 3.9L1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/>',
@@ -367,6 +368,7 @@ function viewHome() {
     <div class="hero-carousel__track">
       ${heroSlides.map((slide, i) => `
       <div class="hero-carousel__slide" data-index="${i}" role="group" aria-roledescription="slide" aria-label="شريحة ${i + 1} من ${heroSlides.length}">
+        <div class="hero-carousel__bg" style="background-image: url('${slide.image}')" aria-hidden="true"></div>
         <div class="hero-carousel__content">
           <span class="hero-carousel__badge">${icon("shield")} ${slide.badge}</span>
           <h1 class="hero-carousel__title">${slide.title}</h1>
@@ -376,17 +378,12 @@ function viewHome() {
             <a class="btn-hero btn-hero--outline" href="${slide.ctaSecondary.href}">${icon("chat")} ${slide.ctaSecondary.label}</a>
           </div>
         </div>
-        <div class="hero-carousel__visual">
-          <div class="hero-carousel__image">
-            <img src="${slide.image}" alt="" loading="${i === 0 ? 'eager' : 'lazy'}" />
-          </div>
-        </div>
       </div>
       `).join("")}
     </div>
     <div class="hero-carousel__dots" id="heroCarouselDots" role="tablist" aria-label="اختر الشريحة"></div>
     <button class="hero-carousel__arrow hero-carousel__arrow--prev" type="button" aria-label="الشريحة السابقة" id="heroCarouselPrev">${icon("chevLeft")}</button>
-    <button class="hero-carousel__arrow hero-carousel__arrow--next" type="button" aria-label="الشريحة التالية" id="heroCarouselNext">${icon("chevLeft")}</button>
+    <button class="hero-carousel__arrow hero-carousel__arrow--next" type="button" aria-label="الشريحة التالية" id="heroCarouselNext">${icon("chevRight")}</button>
   </section>
 
   <section class="container">
