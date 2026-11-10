@@ -257,6 +257,7 @@ function popupHtml(e) {
     <a href="#/entity/${e.id}">عرض التفاصيل ←</a>`;
 }
 
+window.__leafletMaps = window.__leafletMaps || {};
 function mountMap(id, points) {
   const el = document.getElementById(id);
   if (!el) return;
@@ -267,6 +268,7 @@ function mountMap(id, points) {
   }
   destroyMap();
   const map = L.map(id, { scrollWheelZoom: false });
+  window.__leafletMaps[id]=map;
   L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
     maxZoom: 19,
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
