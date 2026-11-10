@@ -1743,16 +1743,23 @@ function setActiveNav(key) {
 function closeMenu() {
   const nav = $("#mainNav");
   const btn = $("#btnMenu");
+  const overlay = $("#navOverlay");
   if (nav) nav.classList.remove("open");
+  if (overlay) overlay.classList.remove("open");
   if (btn) btn.setAttribute("aria-expanded", "false");
 }
 
 function initHeader() {
   const btnMenu = $("#btnMenu");
+  const overlay = $("#navOverlay");
   btnMenu.addEventListener("click", () => {
     const open = $("#mainNav").classList.toggle("open");
+    if (overlay) overlay.classList.toggle("open", open);
     btnMenu.setAttribute("aria-expanded", String(open));
   });
+  if (overlay) {
+    overlay.addEventListener("click", closeMenu);
+  }
   $("#mainNav").addEventListener("click", (ev) => {
     if (ev.target.closest("a")) closeMenu();
   });

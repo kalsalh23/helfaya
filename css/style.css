@@ -498,8 +498,10 @@ button { cursor: pointer; border: 0; background: none; }
 .hero-carousel {
   position: relative;
   margin-bottom: var(--space-8);
+  overflow: hidden;
+  border-radius: var(--r-2xl);
 }
-.hero-carousel__track { display: flex; transition: transform var(--transition-slow); }
+.hero-carousel__track { display: flex; width: 100%; transition: transform var(--transition-slow); }
 .hero-carousel__slide {
   flex: 0 0 100%; min-width: 100%;
   position: relative;
