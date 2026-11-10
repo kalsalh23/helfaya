@@ -345,13 +345,13 @@ function viewHome() {
   ];
 
   return `
-  <section class="home-intro">
+  <section class="home-hero">
     <div class="container">
-      <div class="home-intro__card">
-        <span class="home-intro__badge">${icon("shield")} دليل حلفايا الطبي</span>
-        <h1 class="home-intro__title">الخدمات الطبية في حلفايا بسهولة ووضوح</h1>
-        <p class="home-intro__subtitle">ابحث عن الطبيب أو الصيدلية أو المشفى، واعرف المناوبة والخدمات المتاحة بسرعة.</p>
-        <div class="home-intro__actions">
+      <div class="home-hero-card">
+        <span class="home-hero-badge">${icon("shield")} دليل حلفايا الطبي</span>
+        <h1 class="home-hero-title">الخدمات الطبية في حلفايا بوضوح وسهولة</h1>
+        <p class="home-hero-subtitle">ابحث عن الأطباء والصيدليات والمشافي والمراكز الصحية، وتابع المناوبة اليومية من مكان واحد.</p>
+        <div class="home-hero-actions">
           <a class="btn btn--primary btn--lg" href="#/search">${icon("search")} ابحث في الدليل</a>
           <a class="btn btn--outline btn--lg" href="#/ask">${icon("chat")} اسأل طبياً</a>
         </div>
