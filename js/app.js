@@ -130,80 +130,24 @@ function entityCard(e, { rank = false, hours = false, image = false } = {}) {
   </article>`;
 }
 
-/* Fleming: minimal horizontal card for home featured sections —
-   carousel with dot indicators, reduced details: avatar + name + spec + call only.
-   Area / phone text / map link removed from card; they live on the detail page. */
-function entityCardMin(e, { rank = false } = {}) {
-  const t = TYPES[e.type];
-  const addr = [e.area, e.address].filter(Boolean).join(" — ");
-
-  return `
-  <article class="entity-card entity-card--min" data-go="#/entity/${e.id}" style="--tc:${t.color}" tabindex="0" role="link" aria-label="${esc(e.name)}">
-    ${e.featured && rank !== false && e.rank ? `<span class="rank-badge">${icon("star")} ${fmtNum(e.rank)}</span>` : ""}
-    <div class="entity-card__inner">
-      <div class="entity-card__media">
-        <img src="${esc(placeholderFor(e))}" alt="${esc(e.name)}" loading="lazy" />
-      </div>
-      <div class="entity-card__body">
-        <p class="entity-card__name">${esc(e.name)}</p>
-        <p class="entity-card__meta"><span class="entity-card__dot"></span>${esc(e.spec || t.label)}</p>
-        ${e.type === "doctor" && e.exp ? `<p class="entity-card__exp">خبرة ${fmtNum(e.exp)} سنوات</p>` : ""}
-      </div>
-      <div class="entity-card__actions">
-        ${e.phone ? `
-          <a class="entity-card__action entity-card__action--call" data-stop href="${telHref(e.phone)}" dir="ltr" aria-label="اتصال بـ ${esc(e.name)}">
-            ${icon("phone")} اتصال
-          </a>` : `<span class="entity-card__action" style="background:var(--surface-alt);color:var(--text-muted);border-color:var(--border);cursor:not-allowed">${icon("pin")} Site</span>`}
-      </div>
-    </div>
-  </article>`;
-}
-
-/* بطاقة الكيان الكاملة — محسنة بالكامل */
-function entityCard(e, { rank = false, hours = false, image = false } = {}) {
-  const t = TYPES[e.type];
-  const addr = [e.area, e.address].filter(Boolean).join(" — ");
-
-  return `
-  <article class="entity-card entity-card--photo" data-go="#/entity/${e.id}" style="--tc:${t.color}" tabindex="0" role="link" aria-label="${esc(e.name)}">
-    ${e.featured && rank !== false && e.rank ? `<span class="rank-badge">${icon("star")} ${fmtNum(e.rank)}</span>` : ""}
-    <div class="entity-card__inner">
-      <div class="entity-card__media">
-        <img src="${esc(placeholderFor(e))}" alt="${esc(e.name)}" loading="lazy" />
-      </div>
-      <div class="entity-card__body">
-        <p class="entity-card__name">${esc(e.name)}</p>
-        <p class="entity-card__meta"><span class="entity-card__dot"></span>${esc(e.spec || t.label)}</p>
-        ${e.type === "doctor" && e.exp ? `<p class="entity-card__exp">خبرة ${fmtNum(e.exp)} سنوات</p>` : ""}
-        ${addr ? `<p class="entity-card__location">${icon("pin")} <span>${esc(addr)}</span></p>` : ""}
-        ${hours ? `<p class="entity-card__hours">${icon("clock")} ${esc(e.hours)}</p>` : ""}
-        <div class="entity-card__actions">
-          ${e.phone ? `<a class="entity-card__action entity-card__action--call" data-stop href="${telHref(e.phone)}" dir="ltr">${icon("phone")} ${fmtPhone(e.phone)}</a>` : ""}
-          ${e.type === "doctor" ? "" : `<a class="entity-card__action entity-card__action--map" data-stop href="${mapsLink(e.lat, e.lng, addr)}" target="_blank" rel="noopener">${icon("pin")} الموقع</a>`}
-          <a class="entity-card__action entity-card__action--details" data-stop href="#/entity/${e.id}">${icon("arrowLeft")} التفاصيل</a>
-        </div>
-      </div>
-    </div>
-  </article>`;
-}
-/* بطاقة طبيب مميز للكاروسيل */
+/* بطاقة طبيب مميز للكاروسيل - مطابقة لـ dalilshoran */
 function featuredDoctorCarouselCard(d) {
   const t = TYPES[d.type] || TYPES.doctor;
   const addr = [d.area, d.address].filter(Boolean).join(" — ");
-  const rank = d.rank ? `<span class="featured-doc-card__badge">${icon("star")} مميز${Number(d.rank) ? " · " + fmtNum(d.rank) : ""}</span>` : `<span class="featured-doc-card__badge">${icon("star")} مميز</span>`;
+  const rank = d.rank ? `<span class="featured-doc-badge">${icon("star")} مميز${Number(d.rank) ? " · " + fmtNum(d.rank) : ""}</span>` : `<span class="featured-doc-badge">${icon("star")} مميز</span>`;
   return `
   <article class="featured-doc-card" data-go="#/entity/${d.id}" tabindex="0" role="link" aria-label="${esc(d.name)}">
-    <div class="featured-doc-card__media">
+    <div class="featured-doc-media">
       <img src="${esc(placeholderFor(d))}" alt="${esc(d.name)}" loading="lazy" />
       ${rank}
     </div>
-    <div class="featured-doc-card__body">
-      <p class="featured-doc-card__name">${esc(d.name)}</p>
-      <p class="featured-doc-card__spec"><span class="entity-card__dot"></span>${esc(d.spec || t.label)}</p>
-      ${d.exp ? `<p class="featured-doc-card__exp">${icon("briefcase")} خبرة ${fmtNum(d.exp)} سنة</p>` : ""}
-      ${addr ? `<p class="featured-doc-card__location">${icon("pin")} <span>${esc(addr)}</span></p>` : ""}
-      ${d.hours ? `<p class="featured-doc-card__hours">${icon("clock")} ${esc(d.hours)}</p>` : ""}
-      <a class="featured-doc-card__action" data-stop href="#/entity/${d.id}">${icon("arrowLeft")} عرض التفاصيل</a>
+    <div class="featured-doc-body">
+      <p class="featured-doc-name">${esc(d.name)}</p>
+      <p class="featured-doc-spec"><span class="ec-dot"></span>${esc(d.spec || t.label)}</p>
+      ${d.exp ? `<p class="featured-doc-exp">${icon("briefcase")} خبرة ${fmtNum(d.exp)} سنة</p>` : ""}
+      ${addr ? `<p class="featured-doc-location">${icon("pin")} <span>${esc(addr)}</span></p>` : ""}
+      ${d.hours ? `<p class="featured-doc-hours">${icon("clock")} ${esc(d.hours)}</p>` : ""}
+      <a class="featured-doc-action" data-stop href="#/entity/${d.id}">${icon("arrowLeft")} عرض التفاصيل</a>
     </div>
   </article>`;
 }
@@ -213,23 +157,23 @@ function oncallCard(p) {
   const addr = [p.area, p.address].filter(Boolean).join(" — ");
   return `
   <article class="oncall-card" data-go="#/entity/${p.id}" tabindex="0" role="link" aria-label="${esc(p.name)}">
-    <div class="oncall-card__media">
+    <div class="oc-media">
       <img src="${esc(placeholderFor(p))}" alt="${esc(p.name)}" loading="lazy" />
     </div>
-    <div class="oncall-card__body">
-      <div class="oncall-card__head">
-        <p class="oncall-card__name">${esc(p.name)}</p>
-        <span class="oncall-card__badge">${icon("ambulance")} مناوبة</span>
+    <div class="oc-body">
+      <div class="oc-head">
+        <p class="oc-name">${esc(p.name)}</p>
+        <span class="oc-badge">${icon("ambulance")} مناوبة</span>
       </div>
-      <p class="oncall-card__spec"><span class="entity-card__dot"></span>${esc(p.spec || t.label)}</p>
-      ${addr ? `<p class="oncall-card__location">${icon("pin")} <span>${esc(addr)}</span></p>` : ""}
-      ${p.hours ? `<p class="oncall-card__hours">${icon("clock")} ${esc(p.hours)}</p>` : ""}
-      <div class="oncall-card__actions">
+      <p class="oc-spec"><span class="ec-dot"></span>${esc(p.spec || t.label)}</p>
+      ${addr ? `<p class="oc-addr">${icon("pin")} <span>${esc(addr)}</span></p>` : ""}
+      ${p.hours ? `<p class="oc-hours">${icon("clock")} ${esc(p.hours)}</p>` : ""}
+      <div class="oc-meta">
         ${p.phone ? `
-          <a class="oncall-card__action oncall-card__action--call" data-stop href="${telHref(p.phone)}" dir="ltr" aria-label="اتصال بـ ${esc(p.name)}">
+          <a class="oc-call" data-stop href="${telHref(p.phone)}" dir="ltr" aria-label="اتصال بـ ${esc(p.name)}">
             ${icon("phone")} ${fmtPhone(p.phone)}
           </a>` : ""}
-        <a class="oncall-card__action oncall-card__action--map" data-stop href="${mapsLink(p.lat, p.lng, addr)}" target="_blank" rel="noopener">
+        <a class="oc-map" data-stop href="${mapsLink(p.lat, p.lng, addr)}" target="_blank" rel="noopener">
           ${icon("pin")} الموقع
         </a>
       </div>
@@ -1001,14 +945,14 @@ function viewSearch(params) {
       <h2 class="group-title" style="font-family:var(--font-heading);font-size:1.1rem;font-weight:800;color:var(--text);margin-bottom:var(--space-4);display:flex;align-items:center;gap:var(--space-2)"><span class="g-sq" style="width:8px;height:8px;border-radius:50%;background:${t.color}"></span>${t.plural} <span class="g-count" style="color:var(--text-muted);font-size:0.9rem;font-weight:600">(${fmtNum(items.length)})</span></h2>
       <div class="s-rows" style="display:flex;flex-direction:column;gap:var(--space-2)">
         ${items.map((e) => `
-          <a class="result-row entity-card entity-card--min" href="#/entity/${e.id}" style="--tc:${t.color}">
-            <div class="entity-card__inner">
-              <div class="entity-card__media" style="width:60px;height:60px;aspect-ratio:1">
+          <a class="result-row" href="#/entity/${e.id}" style="--tc:${t.color}">
+            <div class="result-row__inner">
+              <div class="result-row__media" style="width:60px;height:60px;aspect-ratio:1">
                 <img src="${esc(placeholderFor(e))}" alt="${esc(e.name)}" loading="lazy" />
               </div>
-              <div class="entity-card__body">
-                <p class="entity-card__name">${esc(e.name)}</p>
-                <p class="entity-card__meta"><span class="entity-card__dot"></span>${esc(e.spec || t.label)}${e.area ? " — " + esc(e.area) : ""}</p>
+              <div class="result-row__body">
+                <p class="result-row__name">${esc(e.name)}</p>
+                <p class="result-row__meta"><span class="result-row__dot"></span>${esc(e.spec || t.label)}${e.area ? " — " + esc(e.area) : ""}</p>
               </div>
             </div>
           </a>`).join("")}
@@ -1021,14 +965,14 @@ function viewSearch(params) {
       <h2 class="group-title" style="font-family:var(--font-heading);font-size:1.1rem;font-weight:800;color:var(--text);margin-bottom:var(--space-4);display:flex;align-items:center;gap:var(--space-2)"><span class="g-sq" style="width:8px;height:8px;border-radius:50%;background:var(--accent)"></span>أسئلة وأجوبة <span class="g-count" style="color:var(--text-muted);font-size:0.9rem;font-weight:600">(${fmtNum(faqs.length)})</span></h2>
       <div class="s-rows" style="display:flex;flex-direction:column;gap:var(--space-2)">
         ${faqs.map((f) => `
-          <a class="result-row entity-card entity-card--min" href="#/ask" style="--tc:var(--accent)">
-            <div class="entity-card__inner">
-              <div class="entity-card__media" style="width:60px;height:60px;aspect-ratio:1;background:var(--accent-soft);display:flex;align-items:center;justify-content:center">
+          <a class="result-row" href="#/ask" style="--tc:var(--accent)">
+            <div class="result-row__inner">
+              <div class="result-row__media" style="width:60px;height:60px;aspect-ratio:1;background:var(--accent-soft);display:flex;align-items:center;justify-content:center">
                 ${icon("doc")}
               </div>
-              <div class="entity-card__body">
-                <p class="entity-card__name">${esc(f.q)}</p>
-                <p class="entity-card__meta"><span class="entity-card__dot"></span>${esc(f.cat)}</p>
+              <div class="result-row__body">
+                <p class="result-row__name">${esc(f.q)}</p>
+                <p class="result-row__meta"><span class="result-row__dot"></span>${esc(f.cat)}</p>
               </div>
             </div>
           </a>`).join("")}
@@ -1703,6 +1647,23 @@ function updateEntityBtn() {
   }
 }
 
+
+function viewFeatured() {
+  const featuredDoctors = featuredBy("doctor", 20);
+  return `
+  <div class="container page-wrap featured-page">
+    <div class="featured-head">
+      <a class="featured-back" href="#/" aria-label="العودة">${icon("arrowLeft")}</a>
+      <div>
+        <h1>${icon("star")} الأطباء المميزون</h1>
+        <p>أبرز الأطباء في حلفايا — اضغط للاطلاع على التفاصيل</p>
+      </div>
+    </div>
+    <div class="fdoc-grid">
+      ${featuredDoctors.map((d) => featuredDoctorCarouselCard(d)).join("")}
+    </div>
+  </div>`;
+}
 
 function afterFeatured(){}
 /* ================= التوجيه ================= */
