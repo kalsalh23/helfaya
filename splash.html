@@ -20,19 +20,25 @@
   }
   .logo-wrap{width:108px;height:108px;display:flex;align-items:center;justify-content:center;margin-top:12vh;background:#E3F4F1;border:1px solid #E3F4F1;border-radius:26px}
   .logo-wrap svg{width:68px;height:68px}
-  .text-wrap{line-height:1.5;padding:0 8px}
-  h1{font-size:clamp(24px,6vw,30px);font-weight:800;letter-spacing:.2px;margin-bottom:6px;color:#FFFFFF}
-  .subtitle{font-size:clamp(16px,4.2vw,18px);font-weight:500;color:#FFFFFF}
+  .splash-logo{opacity:0;transform:scale(0.92);transition:opacity .6s ease,transform .6s ease}
+  .splash-logo.is-visible{opacity:1;transform:scale(1)}
+  .text-wrap{line-height:1.5;padding:0 8px;min-height:48px}
+  .splash-name{font-size:clamp(24px,6vw,30px);font-weight:800;letter-spacing:.2px;color:#FFFFFF;opacity:0;transform:translateY(10px);transition:opacity .5s ease,transform .5s ease}
+  .splash-name.is-visible{opacity:1;transform:translateY(0)}
   .footer{width:100%;max-width:340px;display:flex;flex-direction:column;align-items:center;gap:10px}
   .spinner{width:32px;height:32px;border:3px solid #E3F4F1;border-top-color:#FFFFFF;border-radius:50%;animation:spin .9s linear infinite}
   @keyframes spin{to{transform:rotate(360deg)}}
   .dev-label{font-size:12px;color:#FFFFFF}
   .dev-name{font-size:16px;font-weight:700;color:#FFFFFF}
   .dev-phone{font-size:15px;font-weight:700;color:#FFFFFF;letter-spacing:.4px;text-decoration:none;border-bottom:1px solid #FFFFFF}
+  @media (prefers-reduced-motion: reduce){
+    .splash-logo,.splash-name,.spinner{transition:none !important;animation:none !important}
+    .splash-logo,.splash-name{opacity:1 !important;transform:none !important}
+  }
 </style>
 </head>
 <body>
-  <div class="logo-wrap" aria-hidden="true">
+  <div class="logo-wrap splash-logo" aria-hidden="true">
     <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
       <rect x="6" y="6" width="52" height="52" rx="16" fill="#FFFFFF"/>
       <path d="M32 15v34M15 32h34" stroke="#079F98" stroke-width="6.5" stroke-linecap="round"/>
@@ -40,8 +46,7 @@
     </svg>
   </div>
   <div class="text-wrap">
-    <h1>دليل حلفايا الطبي</h1>
-    <p class="subtitle">صحتك أقرب إليك</p>
+    <h1 class="splash-name">دليلك الطبي</h1>
   </div>
   <div class="footer">
     <div class="spinner" role="status" aria-label="جارٍ التحميل"></div>
@@ -49,5 +54,19 @@
     <div class="dev-name">قصي مهند الصالح</div>
     <a class="dev-phone" href="tel:0952639157" dir="ltr">0952639157</a>
   </div>
+  <script>
+    (function(){
+      var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var logo = document.querySelector('.splash-logo');
+      var name = document.querySelector('.splash-name');
+      if (reduce) {
+        if (logo) logo.classList.add('is-visible');
+        if (name) name.classList.add('is-visible');
+        return;
+      }
+      setTimeout(function(){ if (logo) logo.classList.add('is-visible'); }, 80);
+      setTimeout(function(){ if (name) name.classList.add('is-visible'); }, 820);
+    })();
+  </script>
 </body>
 </html>

@@ -1010,9 +1010,12 @@ button { cursor: pointer; border: 0; background: none; }
 .splash-screen { position: fixed; inset: 0; z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: space-between; padding: calc(16vh + env(safe-area-inset-top, 0px)) 24px calc(28px + env(safe-area-inset-bottom, 0px)); background: #079F98; color: #FFFFFF; text-align: center; transition: opacity .45s ease, visibility .45s ease; }
 .splash-screen.is-hidden { opacity: 0; visibility: hidden; pointer-events: none; }
 .splash-inner { display: flex; flex-direction: column; align-items: center; gap: 18px; max-width: 320px; }
-.splash-icon { width: 96px; height: 96px; border-radius: 24px; background: #E3F4F1; border: 1px solid #E3F4F1; box-shadow: 0 18px 40px #E3F4F1; display: flex; align-items: center; justify-content: center; }
+.splash-icon { width: 96px; height: 96px; border-radius: 24px; background: #E3F4F1; border: 1px solid #E3F4F1; display: flex; align-items: center; justify-content: center; }
 .splash-icon svg { width: 64px; height: 64px; display: block; }
-.splash-tagline { margin: 0; font-size: 18px; line-height: 1.7; font-weight: 700; color: #FFFFFF; }
+.splash-logo { opacity: 0; transform: scale(0.92); transition: opacity .6s ease, transform .6s ease; }
+.splash-logo.is-visible { opacity: 1; transform: scale(1); }
+.splash-name { margin: 0; font-size: 22px; line-height: 1.6; font-weight: 800; color: #FFFFFF; opacity: 0; transform: translateY(10px); transition: opacity .5s ease, transform .5s ease; }
+.splash-name.is-visible { opacity: 1; transform: translateY(0); }
 .splash-bottom { display: flex; flex-direction: column; align-items: center; gap: 16px; }
 .splash-spinner { width: 32px; height: 32px; border-radius: 50%; border: 3px solid #E3F4F1; border-top-color: #FFFFFF; animation: splash-spin 0.9s linear infinite; }
 @keyframes splash-spin { to { transform: rotate(360deg) } }
@@ -1021,7 +1024,10 @@ button { cursor: pointer; border: 0; background: none; }
 .splash-credit-name { font-weight: 700; font-size: 14.5px; color: #FFFFFF; }
 .splash-credit-phone { color: #FFFFFF; text-decoration: none; font-weight: 700; border-bottom: 1px solid #E3F4F1; }
 .splash-credit-phone:hover { text-decoration: none; border-bottom-color: #FFFFFF; }
-@media (prefers-reduced-motion: reduce) { .splash-screen, .splash-spinner { transition: none; animation: none; } }
+@media (prefers-reduced-motion: reduce) {
+  .splash-screen, .splash-spinner, .splash-logo, .splash-name { transition: none !important; animation: none !important; }
+  .splash-logo, .splash-name { opacity: 1 !important; transform: none !important; }
+}
 
 /* ============================================================
    Responsive adjustments (مطابقة لـ dalilshoran)

@@ -31,16 +31,16 @@
   </script>
 </head>
 <body>
-  <div id="splashScreen" class="splash-screen" role="status" aria-live="polite" aria-label="جارٍ تحميل دليل حلفايا الطبي">
+  <div id="splashScreen" class="splash-screen" role="status" aria-live="polite" aria-label="جارٍ تحميل دليلك الطبي">
     <div class="splash-inner">
-      <div class="splash-icon" aria-hidden="true">
+      <div class="splash-icon splash-logo" aria-hidden="true">
         <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
           <rect x="6" y="6" width="52" height="52" rx="16" fill="#FFFFFF" stroke="#E3F4F1"/>
-          <path d="M32 15v34M15 32h34" stroke="#FFFFFF" stroke-width="6.5" stroke-linecap="round"/>
-          <circle cx="32" cy="32" r="7" fill="#079F98" stroke="#FFFFFF" stroke-width="3"/>
+          <path d="M32 15v34M15 32h34" stroke="#079F98" stroke-width="6.5" stroke-linecap="round"/>
+          <circle cx="32" cy="32" r="7" fill="#079F98"/>
         </svg>
       </div>
-      <p class="splash-tagline">دليل حلفايا الطبي — صحتك أقرب إليك</p>
+      <p class="splash-name">دليلك الطبي</p>
     </div>
     <div class="splash-bottom">
       <div class="splash-spinner" aria-hidden="true"></div>
@@ -183,10 +183,36 @@
   <script src="js/app.js"></script>
   <script>
   (function(){
-    var done=false;
-    function hide(){ if(done) return; done=true; var el=document.getElementById('splashScreen'); if(!el) return; el.classList.add('is-hidden'); setTimeout(function(){ if(el&&el.parentNode) el.parentNode.removeChild(el); }, 500); }
-    setTimeout(hide, 4000);
-    window.__hideSplash = hide;
+    var done=false, sequenceStarted=false, readyRequested=false;
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    function doHide(){
+      if(done) return; done=true;
+      var el=document.getElementById('splashScreen');
+      if(!el) return;
+      el.classList.add('is-hidden');
+      setTimeout(function(){ if(el&&el.parentNode) el.parentNode.removeChild(el); }, reduce ? 0 : 500);
+    }
+    function start(){
+      if(sequenceStarted) return; sequenceStarted=true;
+      var logo=document.querySelector('.splash-logo');
+      var name=document.querySelector('.splash-name');
+      if(reduce){
+        if(logo) logo.classList.add('is-visible');
+        if(name) name.classList.add('is-visible');
+        doHide();
+        return;
+      }
+      if(logo) logo.classList.add('is-visible');
+      setTimeout(function(){
+        if(name) name.classList.add('is-visible');
+        setTimeout(function(){
+          setTimeout(function(){ doHide(); }, 350);
+        }, 520);
+      }, 720);
+    }
+    window.__hideSplash = function(){ readyRequested=true; if(document.readyState === 'loading'){ document.addEventListener('DOMContentLoaded', start, {once:true}); } else { start(); } };
+    setTimeout(function(){ window.__hideSplash(); }, 4200);
+    if(document.readyState === 'loading'){ document.addEventListener('DOMContentLoaded', start, {once:true}); } else { start(); }
   })();
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('./sw.js').then(function(r){ console.log('SW registered', r.scope); }).catch(function(e){ console.warn('SW register failed', e); });
