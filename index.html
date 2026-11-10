@@ -205,13 +205,11 @@
       if(logo) logo.classList.add('is-visible');
       setTimeout(function(){
         if(name) name.classList.add('is-visible');
-        setTimeout(function(){
-          setTimeout(function(){ doHide(); }, 350);
-        }, 520);
+        setTimeout(function(){ doHide(); }, 2500);
       }, 720);
     }
     window.__hideSplash = function(){ readyRequested=true; if(document.readyState === 'loading'){ document.addEventListener('DOMContentLoaded', start, {once:true}); } else { start(); } };
-    setTimeout(function(){ window.__hideSplash(); }, 4200);
+    setTimeout(function(){ window.__hideSplash(); }, 7000);
     if(document.readyState === 'loading'){ document.addEventListener('DOMContentLoaded', start, {once:true}); } else { start(); }
   })();
   if ('serviceWorker' in navigator) {
