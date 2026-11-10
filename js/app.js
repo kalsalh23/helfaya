@@ -99,7 +99,7 @@ const state = {
 /* ================= مكوّنات مشتركة ================= */
 function typeBadge(e) {
   const t = TYPES[e.type];
-  return `<a class="badge badge-blue" href="#/${routeSlug(e.type)}" style="--tc:${t.color}">${icon(t.icon)} ${t.label}</a>`;
+  return `<a class="badge badge--primary" href="#/${routeSlug(e.type)}" style="--tc:${t.color}">${icon(t.icon)} ${t.label}</a>`;
 }
 
 function entityCard(e, { rank = false, hours = false, image = false } = {}) {
@@ -139,74 +139,98 @@ function entityCardMin(e, { rank = false } = {}) {
 
   return `
   <article class="entity-card entity-card--min" data-go="#/entity/${e.id}" style="--tc:${t.color}" tabindex="0" role="link" aria-label="${esc(e.name)}">
-    ${e.featured && rank !== false && e.rank ? `<span class="rank-ribbon">${icon("star")} ${fmtNum(e.rank)}</span>` : ""}
-    <div class="ec-min">
-      <div class="ec-media ec-media--lg"><img src="${esc(placeholderFor(e))}" alt="${esc(e.name)}" loading="lazy" /></div>
-      <div class="ec-min-body">
-        <p class="ec-name">${esc(e.name)}</p>
-        <p class="ec-spec"><span class="ec-dot"></span>${esc(e.spec || t.label)}</p>
-        ${e.type === "doctor" && e.exp ? `<p class="ec-exp">خبرة ${fmtNum(e.exp)} سنوات</p>` : ""}
+    ${e.featured && rank !== false && e.rank ? `<span class="rank-badge">${icon("star")} ${fmtNum(e.rank)}</span>` : ""}
+    <div class="entity-card__inner">
+      <div class="entity-card__media">
+        <img src="${esc(placeholderFor(e))}" alt="${esc(e.name)}" loading="lazy" />
       </div>
-      <div class="ec-min-side">
+      <div class="entity-card__body">
+        <p class="entity-card__name">${esc(e.name)}</p>
+        <p class="entity-card__meta"><span class="entity-card__dot"></span>${esc(e.spec || t.label)}</p>
+        ${e.type === "doctor" && e.exp ? `<p class="entity-card__exp">خبرة ${fmtNum(e.exp)} سنوات</p>` : ""}
+      </div>
+      <div class="entity-card__actions">
         ${e.phone ? `
-          <a class="ec-call" data-stop href="${telHref(e.phone)}" dir="ltr" aria-label="اتصال بـ ${esc(e.name)}">
+          <a class="entity-card__action entity-card__action--call" data-stop href="${telHref(e.phone)}" dir="ltr" aria-label="اتصال بـ ${esc(e.name)}">
             ${icon("phone")} اتصال
-          </a>` : `<span class="ec-call ec-call--muted">${icon("pin")} Site</span>`}
+          </a>` : `<span class="entity-card__action" style="background:var(--surface-alt);color:var(--text-muted);border-color:var(--border);cursor:not-allowed">${icon("pin")} Site</span>`}
       </div>
     </div>
   </article>`;
 }
 
-/* Fleming: rectangular on-call pharmacy card — image on the right,
-   details on the left. Used on the home "on-call today" strip and the
-   on-call schedule page. Falls back to the type glyph when no image. */
-function featuredDoctorCarouselCard(d) {
-  const t = TYPES[d.type] || TYPES.doctor;
-  const addr = [d.area, d.address].filter(Boolean).join(" — ");
-  const rank = d.rank ? `<span class="oc-badge featured-doc-badge">${icon("star")} مميز${Number(d.rank) ? " · " + fmtNum(d.rank) : ""}</span>` : `<span class="oc-badge featured-doc-badge">${icon("star")} مميز</span>`;
+/* بطاقة الكيان الكاملة — محسنة بالكامل */
+function entityCard(e, { rank = false, hours = false, image = false } = {}) {
+  const t = TYPES[e.type];
+  const addr = [e.area, e.address].filter(Boolean).join(" — ");
+
   return `
-  <article class="oncall-card featured-doc-card" data-go="#/entity/${d.id}" tabindex="0" role="link" aria-label="${esc(d.name)}">
-    <div class="oc-media featured-doc-media">
-      <img src="${esc(placeholderFor(d))}" alt="${esc(d.name)}" loading="lazy" />
-    </div>
-    <div class="oc-body">
-      <div class="oc-head">
-        <p class="oc-name">${esc(d.name)}</p>
-        ${rank}
+  <article class="entity-card entity-card--photo" data-go="#/entity/${e.id}" style="--tc:${t.color}" tabindex="0" role="link" aria-label="${esc(e.name)}">
+    ${e.featured && rank !== false && e.rank ? `<span class="rank-badge">${icon("star")} ${fmtNum(e.rank)}</span>` : ""}
+    <div class="entity-card__inner">
+      <div class="entity-card__media">
+        <img src="${esc(placeholderFor(e))}" alt="${esc(e.name)}" loading="lazy" />
       </div>
-      <p class="oc-spec"><span class="ec-dot"></span>${esc(d.spec || t.label)}</p>
-      ${d.exp ? `<p class="oc-hours">${icon("briefcase")} خبرة ${fmtNum(d.exp)} سنة</p>` : ""}
-      ${addr ? `<p class="oc-addr">${icon("pin")} <span>${esc(addr)}</span></p>` : ""}
-      ${d.hours ? `<p class="oc-hours">${icon("clock")} ${esc(d.hours)}</p>` : ""}
-      <div class="oc-meta">
-        <a class="oc-map featured-doc-open" data-stop href="#/entity/${d.id}">${icon("arrowLeft")} التفاصيل</a>
+      <div class="entity-card__body">
+        <p class="entity-card__name">${esc(e.name)}</p>
+        <p class="entity-card__meta"><span class="entity-card__dot"></span>${esc(e.spec || t.label)}</p>
+        ${e.type === "doctor" && e.exp ? `<p class="entity-card__exp">خبرة ${fmtNum(e.exp)} سنوات</p>` : ""}
+        ${addr ? `<p class="entity-card__location">${icon("pin")} <span>${esc(addr)}</span></p>` : ""}
+        ${hours ? `<p class="entity-card__hours">${icon("clock")} ${esc(e.hours)}</p>` : ""}
+        <div class="entity-card__actions">
+          ${e.phone ? `<a class="entity-card__action entity-card__action--call" data-stop href="${telHref(e.phone)}" dir="ltr">${icon("phone")} ${fmtPhone(e.phone)}</a>` : ""}
+          ${e.type === "doctor" ? "" : `<a class="entity-card__action entity-card__action--map" data-stop href="${mapsLink(e.lat, e.lng, addr)}" target="_blank" rel="noopener">${icon("pin")} الموقع</a>`}
+          <a class="entity-card__action entity-card__action--details" data-stop href="#/entity/${e.id}">${icon("arrowLeft")} التفاصيل</a>
+        </div>
       </div>
     </div>
   </article>`;
 }
+/* بطاقة طبيب مميز للكاروسيل */
+function featuredDoctorCarouselCard(d) {
+  const t = TYPES[d.type] || TYPES.doctor;
+  const addr = [d.area, d.address].filter(Boolean).join(" — ");
+  const rank = d.rank ? `<span class="featured-doc-card__badge">${icon("star")} مميز${Number(d.rank) ? " · " + fmtNum(d.rank) : ""}</span>` : `<span class="featured-doc-card__badge">${icon("star")} مميز</span>`;
+  return `
+  <article class="featured-doc-card" data-go="#/entity/${d.id}" tabindex="0" role="link" aria-label="${esc(d.name)}">
+    <div class="featured-doc-card__media">
+      <img src="${esc(placeholderFor(d))}" alt="${esc(d.name)}" loading="lazy" />
+      ${rank}
+    </div>
+    <div class="featured-doc-card__body">
+      <p class="featured-doc-card__name">${esc(d.name)}</p>
+      <p class="featured-doc-card__spec"><span class="entity-card__dot"></span>${esc(d.spec || t.label)}</p>
+      ${d.exp ? `<p class="featured-doc-card__exp">${icon("briefcase")} خبرة ${fmtNum(d.exp)} سنة</p>` : ""}
+      ${addr ? `<p class="featured-doc-card__location">${icon("pin")} <span>${esc(addr)}</span></p>` : ""}
+      ${d.hours ? `<p class="featured-doc-card__hours">${icon("clock")} ${esc(d.hours)}</p>` : ""}
+      <a class="featured-doc-card__action" data-stop href="#/entity/${d.id}">${icon("arrowLeft")} عرض التفاصيل</a>
+    </div>
+  </article>`;
+}
+
 function oncallCard(p) {
   const t = TYPES.pharmacy;
   const addr = [p.area, p.address].filter(Boolean).join(" — ");
   return `
   <article class="oncall-card" data-go="#/entity/${p.id}" tabindex="0" role="link" aria-label="${esc(p.name)}">
-    <div class="oc-media">
+    <div class="oncall-card__media">
       <img src="${esc(placeholderFor(p))}" alt="${esc(p.name)}" loading="lazy" />
     </div>
-    <div class="oc-body">
-      <div class="oc-head">
-        <p class="oc-name">${esc(p.name)}</p>
-        <span class="oc-badge">${icon("ambulance")} مناوبة</span>
+    <div class="oncall-card__body">
+      <div class="oncall-card__head">
+        <p class="oncall-card__name">${esc(p.name)}</p>
+        <span class="oncall-card__badge">${icon("ambulance")} مناوبة</span>
       </div>
-      <p class="oc-spec"><span class="ec-dot"></span>${esc(p.spec || t.label)}</p>
-      ${addr ? `<p class="oc-addr">${icon("pin")} <span>${esc(addr)}</span></p>` : ""}
-      ${p.hours ? `<p class="oc-hours">${icon("clock")} ${esc(p.hours)}</p>` : ""}
-      <div class="oc-meta">
+      <p class="oncall-card__spec"><span class="entity-card__dot"></span>${esc(p.spec || t.label)}</p>
+      ${addr ? `<p class="oncall-card__location">${icon("pin")} <span>${esc(addr)}</span></p>` : ""}
+      ${p.hours ? `<p class="oncall-card__hours">${icon("clock")} ${esc(p.hours)}</p>` : ""}
+      <div class="oncall-card__actions">
         ${p.phone ? `
-          <a class="oc-call" data-stop href="${telHref(p.phone)}" dir="ltr" aria-label="اتصال بـ ${esc(p.name)}">
+          <a class="oncall-card__action oncall-card__action--call" data-stop href="${telHref(p.phone)}" dir="ltr" aria-label="اتصال بـ ${esc(p.name)}">
             ${icon("phone")} ${fmtPhone(p.phone)}
           </a>` : ""}
-        <a class="oc-map" data-stop href="${mapsLink(p.lat, p.lng, addr)}" target="_blank" rel="noopener">
-          ${icon("pin")} Site
+        <a class="oncall-card__action oncall-card__action--map" data-stop href="${mapsLink(p.lat, p.lng, addr)}" target="_blank" rel="noopener">
+          ${icon("pin")} الموقع
         </a>
       </div>
     </div>
@@ -327,12 +351,14 @@ function mountMap(id, points) {
 function showToast(msg, kind = "ok") {
   const wrap = $("#toastWrap");
   const el = document.createElement("div");
-  el.className = `toast ${kind}`;
-  el.innerHTML = `${icon(kind === "ok" ? "check" : "alert")} <span>${esc(msg)}</span>`;
+  const icons = { ok: "check", warn: "alert", err: "alert" };
+  const titles = { ok: "تم", warn: "تنبيه", err: "خطأ" };
+  el.className = `toast toast--${kind === "ok" ? "success" : kind === "warn" ? "warning" : "error"}`;
+  el.innerHTML = `<div class="toast__icon">${icon(icons[kind])}</div><div class="toast__content"><div class="toast__title">${titles[kind]}</div><div class="toast__message">${esc(msg)}</div></div>`;
   wrap.appendChild(el);
   setTimeout(() => {
-    el.classList.add("hide");
-    setTimeout(() => el.remove(), 320);
+    el.style.animation = "toastSlide 0.3s var(--transition-bounce) reverse";
+    setTimeout(() => el.remove(), 300);
   }, 3000);
 }
 
@@ -360,80 +386,110 @@ function fallbackCopy(text, done) {
 /* ================= العرض: الرئيسية ================= */
 function viewHome() {
   const todayName = DAYS[todayIdx()];
-  const featuredDoctors = typeof featuredBy === "function" ? featuredBy("doctor", 8) : ENTITIES.filter((e)=>e && e.type==="doctor").slice(0,8);
-  const featuredDoctorsHtml = featuredDoctors.length
-    ? featuredDoctors.map((d) => featuredDoctorCarouselCard(d)).join("")
-    : `<p class="oncall-empty">لا يوجد أطباء مميزون حالياً.</p>`;
-  const featuredPharmacies = (typeof featuredBy === "function" ? featuredBy("pharmacy", 5) : ENTITIES.filter((e)=>e && e.type==="pharmacy").slice(0,5)).map((p) => entityCardMin(p, { rank: true })).join("");
+  const featuredDoctors = typeof featuredBy === "function" ? featuredBy("doctor", 6) : ENTITIES.filter((e)=>e && e.type==="doctor").slice(0,6);
   const todayOncall = typeof oncallPharmacies === "function" ? oncallPharmacies(todayName, isoDateLocal(new Date())) : [];
   const legend = Object.entries(TYPES).map(([k, t]) => `<span class="legend-item"><i style="--c:${t.color}"></i>${t.plural}</span>`).join("");
 
+  // Slides for hero carousel
+  const heroSlides = [
+    {
+      badge: "دليل حلفايا الطبي",
+      title: "كل الخدمات الطبية في حلفايا — في مكان واحد",
+      subtitle: "ابحث عن طبيب، صيدلية، مشفى أو مركز صحي، واعرف المناوبة اليوم بضغطة واحدة.",
+      ctaPrimary: { label: "ابدأ البحث", href: "#/search" },
+      ctaSecondary: { label: "اسأل طبياً", href: "#/ask" },
+      image: "assets/placeholders/hero-medical.jpg",
+    },
+    {
+      badge: "صيدليات المناوبة",
+      title: "لا تبحث طويلاً — الصيدلية المناوبة هنا",
+      subtitle: "جدول أسبوعي محدث لصيدليات المناوبة في حلفايا. اتصل قبل التوجه للتأكد.",
+      ctaPrimary: { label: "عرض المناوبة", href: "#/oncall" },
+      ctaSecondary: { label: "كل الصيدليات", href: "#/pharmacies" },
+      image: "assets/placeholders/hero-pharmacy.jpg",
+    },
+    {
+      badge: "أطباء حلفايا",
+      title: "أطباء في كل التخصصات — قريبين منك",
+      subtitle: "أطفال، نساء وتوليد، عظام، جلدية، جراحة، قلب، باطنة، والمزيد. مع أرقام مباشرة.",
+      ctaPrimary: { label: "تصفح الأطباء", href: "#/doctors" },
+      ctaSecondary: { label: "المميزون", href: "#/featured" },
+      image: "assets/placeholders/hero-doctors.jpg",
+    },
+  ];
+
   return `
-  <section class="container">
-    <div class="hero">
-      <span class="hero-badge">${icon("shield")} دليل حلفايا الطبي</span>
-      <h1>كل الخدمات الطبية في حلفايا — في مكان واحد</h1>
-      <p class="hero-sub">ابحث عن طبيب أو صيدلية، واتصل مباشرة.</p>
-      <div class="hero-search">
-        <div class="hero-search-box">
-          ${icon("search")}
-          <input type="search" id="heroSearch" placeholder="ابحث عن طبيب، اختصاص، صيدلية…" autocomplete="off" aria-label="بحث في الدليل" />
-          <a class="btn btn-primary hero-search-btn" href="#/search" id="heroSearchBtn">بحث</a>
+  <section class="hero-carousel" id="heroCarousel" aria-label="أبرز خدمات الدليل">
+    <div class="hero-carousel__track">
+      ${heroSlides.map((slide, i) => `
+      <div class="hero-carousel__slide" data-index="${i}" role="group" aria-roledescription="slide" aria-label="شريحة ${i + 1} من ${heroSlides.length}">
+        <div class="hero-carousel__content">
+          <span class="hero-carousel__badge">${icon("shield")} ${slide.badge}</span>
+          <h1 class="hero-carousel__title">${slide.title}</h1>
+          <p class="hero-carousel__subtitle">${slide.subtitle}</p>
+          <div class="hero-carousel__actions">
+            <a class="btn-hero btn-hero--primary" href="${slide.ctaPrimary.href}">${icon("search")} ${slide.ctaPrimary.label}</a>
+            <a class="btn-hero btn-hero--outline" href="${slide.ctaSecondary.href}">${icon("chat")} ${slide.ctaSecondary.label}</a>
+          </div>
         </div>
-        <div class="hero-suggest" id="heroSuggest" hidden></div>
+        <div class="hero-carousel__visual">
+          <div class="hero-carousel__image">
+            <img src="${slide.image}" alt="" loading="${i === 0 ? 'eager' : 'lazy'}" />
+          </div>
+        </div>
       </div>
+      `).join("")}
     </div>
+    <div class="hero-carousel__dots" id="heroCarouselDots" role="tablist" aria-label="اختر الشريحة"></div>
+    <button class="hero-carousel__arrow hero-carousel__arrow--prev" type="button" aria-label="الشريحة السابقة" id="heroCarouselPrev">${icon("chevLeft")}</button>
+    <button class="hero-carousel__arrow hero-carousel__arrow--next" type="button" aria-label="الشريحة التالية" id="heroCarouselNext">${icon("chevLeft")}</button>
   </section>
 
   <section class="container">
-    <div class="quick-nav">
+    <div class="quick-nav" style="margin-top: var(--space-4)">
       <h3 class="quick-nav-title">${icon("sparkles")} اختصارات سريعة</h3>
       <div class="quick-nav-row">
-        <a class="hero-chip" href="#/doctors">الأطباء</a>
-        <a class="hero-chip" href="#/pharmacies">الصيدليات</a>
-        <a class="hero-chip" href="#/hospitals">المشافي</a>
-        <a class="hero-chip" href="#/health-centers">المراكز الطبية</a>
-        <a class="hero-chip is-amber" href="#/oncall">الصيدليات المناوبة</a>
+        <a class="hero-chip" href="#/doctors">${icon("stetho")} الأطباء</a>
+        <a class="hero-chip" href="#/pharmacies">${icon("pill")} الصيدليات</a>
+        <a class="hero-chip" href="#/hospitals">${icon("hospital")} المشافي</a>
+        <a class="hero-chip" href="#/health-centers">${icon("shieldPlus")} المراكز الصحية</a>
+        <a class="hero-chip badge--secondary" href="#/oncall">${icon("ambulance")} المناوبة</a>
       </div>
     </div>
   </section>
 
-  ${(typeof adsStrip === "function" && adsStrip("home")) ? `<section class="container" style="margin-top:14px">${adsStrip("home")}</section>` : ""}
+  ${(typeof adsStrip === "function" && adsStrip("home")) ? `<section class="container" style="margin-top:var(--space-4)">${adsStrip("home")}</section>` : ""}
 
   <section class="section container">
     <div class="section-head">
-      <div><h2>الصيدليات المناوبة اليوم</h2><p>${todayName} — الصيدليات العاملة خارج أوقات الدوام، اتصل قبل التوجه</p></div>
+      <div><h2>${icon("ambulance")} الصيدليات المناوبة اليوم</h2><p>${todayName} — الصيدليات العاملة خارج أوقات الدوام، اتصل قبل التوجه</p></div>
       <a class="section-link" href="#/oncall">جدول المناوبة ${icon("arrowLeft")}</a>
     </div>
-    <div class="oncall-today-card">
-      <div class="oc-carousel" id="oncallCarousel" data-total="${todayOncall.length}">
-        <div class="oc-track">
-          ${todayOncall.length ? todayOncall.map((p) => oncallCard(p)).join("") : `<p class="oncall-empty">لا توجد صيدليات مناوبة مسجلة لهذا اليوم — راجع جدول بقية أيام الأسبوع.</p>`}
-        </div>
-        <div class="oc-dots" id="oncallDots"></div>
+    <div class="carousel" id="oncallCarousel" data-total="${todayOncall.length}">
+      <div class="carousel__track">
+        ${todayOncall.length ? todayOncall.map((p) => oncallCard(p)).join("") : `<div class="empty-state" style="min-width:280px;flex:1">${icon("pill")}<h3>لا توجد صيدليات مناوبة مسجلة لهذا اليوم</h3><p>راجع جدول بقية أيام الأسبوع.</p></div>`}
       </div>
+      <div class="carousel__dots" id="oncallDots" role="tablist" aria-label="صفحات المناوبة"></div>
     </div>
   </section>
 
   ${featuredDoctors.length ? `
   <section class="section container">
     <div class="section-head">
-      <div><h2>الأطباء المميزون</h2><p>اسحب للتنقل بين الأطباء المميزين — اضغط للتفاصيل</p></div>
+      <div><h2>${icon("star")} الأطباء المميزون</h2><p>اسحب للتنقل — اضغط للتفاصيل</p></div>
       <a class="section-link" href="#/doctors">كل الأطباء ${icon("arrowLeft")}</a>
     </div>
-    <div class="oncall-today-card featured-doctors-shell">
-      <div class="oc-carousel featured-docs-carousel" id="featuredDoctorsCarousel" data-total="${featuredDoctors.length}">
-        <div class="oc-track">
-          ${featuredDoctorsHtml}
-        </div>
-        <div class="oc-dots" id="featuredDoctorsDots"></div>
+    <div class="carousel featured-docs-carousel" id="featuredDoctorsCarousel" data-total="${featuredDoctors.length}">
+      <div class="carousel__track">
+        ${featuredDoctors.map((d) => featuredDoctorCarouselCard(d)).join("")}
       </div>
+      <div class="carousel__dots" id="featuredDoctorsDots" role="tablist" aria-label="صفحات الأطباء المميزين"></div>
     </div>
   </section>` : ""}
 
   <section class="section container">
     <div class="section-head">
-      <div><h2>الخريطة الطبية للمدينة</h2><p>مواقع تقريبية لكل الجهات المسجلة — اضغط العلامة للتفاصيل</p></div>
+      <div><h2>${icon("map")} الخريطة الطبية للمدينة</h2><p>مواقع تقريبية لكل الجهات المسجلة — اضغط العلامة للتفاصيل</p></div>
     </div>
     <div class="map-wrap">
       <div class="map-head">
@@ -445,60 +501,64 @@ function viewHome() {
     <p class="map-note">${icon("info")} المواقع تقريبية لأغراض التوجيه، والعنوان الدقيق مذكور في صفحة كل جهة.</p>
   </section>
 
-  <section class="container" style="padding-bottom:40px">
-    <div class="cta-band cta-blue">
+  <section class="container" style="padding-bottom:var(--space-12)">
+    <div class="cta-band cta-band--brand">
       <div>
-        <h3>عندك سؤال صحي؟ اسأل أهل الاختصاص</h3>
+        <h3>${icon("chat")} عندك سؤال صحي؟ اسأل أهل الاختصاص</h3>
         <p>مكتبة إرشادات طبية موثوقة باللغة العربية، وإن لم تجد إجابتك فأرسل سؤالك وسيراجعه فريق الدليل.</p>
       </div>
-      <a class="btn btn-gold btn-lg" href="#/ask">${icon("chat")} اسأل الآن</a>
+      <a class="btn btn--gold btn--lg" href="#/ask">${icon("chat")} اسأل الآن</a>
     </div>
   </section>`;
 }
 function afterHome() {
-  /* اقتراحات البحث في الهيرو */
-  const input = $("#heroSearch");
-  const box = $("#heroSuggest");
-  if (input && box) {
-    const renderSuggest = () => {
-      const q = input.value.trim();
-      if (q.length < 2) { box.hidden = true; box.innerHTML = ""; return; }
-      const { entities, faqs } = searchAll(q);
-      const items = [
-        ...entities.slice(0, 6).map((e) => `
-          <button class="suggest-item" type="button" data-go="#/entity/${e.id}">
-            <span class="s-icon" style="--tc:${TYPES[e.type].color}">${icon(TYPES[e.type].icon)}</span>
-            <span><strong>${esc(e.name)}</strong><small>${esc(e.spec || TYPES[e.type].label)} — ${esc(e.area)}</small></span>
-          </button>`),
-        ...faqs.slice(0, 2).map((f) => `
-          <button class="suggest-item" type="button" data-go="#/ask">
-            <span class="s-icon">${icon("doc")}</span>
-            <span><strong>${esc(f.q)}</strong><small>سؤال شائع — ${esc(f.cat)}</small></span>
-          </button>`),
-      ].join("");
-      box.innerHTML = items || `<p class="search-hint">لا نتائج مطابقة لكلمة «${esc(q)}» — جرّب كلمة أخرى.</p>`;
-      box.hidden = false;
-    };
-    input.addEventListener("input", renderSuggest);
-    input.addEventListener("keydown", (ev) => {
-      if (ev.key === "Enter") {
-        const first = box.querySelector("[data-go]");
-        if (first) { location.hash = first.getAttribute("data-go"); box.hidden = true; }
-        else location.hash = "#/search?q=" + encodeURIComponent(input.value.trim());
-      }
-      if (ev.key === "Escape") box.hidden = true;
-    });
-    input.addEventListener("blur", () => setTimeout(() => { box.hidden = true; }, 180));
-    box.addEventListener("click", (ev) => {
-      const b = ev.target.closest("[data-go]");
-      if (b) { box.hidden = true; location.hash = b.getAttribute("data-go"); }
-    });
-  }
+  /* Hero Carousel */
+  bindHeroCarousel();
+
+  /* اقتراحات البحث في الهيرو - لم يعد مستخدماً مع التصميم الجديد */
 
   mountMap("homeMap", ENTITIES);
   if (typeof bindFeaturedDoctorsCarousel === "function") bindFeaturedDoctorsCarousel();
 
   bindOncallCarousel();
+}
+
+/* Hero Carousel — auto-advance with dots and arrows */
+function bindHeroCarousel() {
+  const carousel = document.getElementById("heroCarousel");
+  if (!carousel) return;
+  const track = carousel.querySelector(".hero-carousel__track");
+  const slides = track ? Array.from(track.querySelectorAll(":scope > .hero-carousel__slide")) : [];
+  const total = slides.length;
+  const dotsEl = document.getElementById("heroCarouselDots");
+  const prevBtn = document.getElementById("heroCarouselPrev");
+  const nextBtn = document.getElementById("heroCarouselNext");
+  if (!track || total === 0 || !dotsEl) return;
+
+  let index = 0;
+  const renderDots = () => {
+    dotsEl.innerHTML = Array.from({ length: total }, (_, i) =>
+      `<button class="hero-carousel__dot ${i === 0 ? "active" : ""}" type="button" data-i="${i}" aria-label="شريحة ${i + 1}"></button>`).join("");
+  };
+  const setIndex = (i) => {
+    index = Math.max(0, Math.min(total - 1, i));
+    track.style.transform = `translateX(-${index * 100}%)`;
+    dotsEl.querySelectorAll(".hero-carousel__dot").forEach((d, j) => d.classList.toggle("active", j === index));
+  };
+  renderDots(); setIndex(0);
+  
+  dotsEl.addEventListener("click", (e) => { const b = e.target.closest("[data-i]"); if (!b) return; setIndex(Number(b.dataset.i)); restart(); });
+  if (prevBtn) prevBtn.addEventListener("click", () => { setIndex(index - 1); restart(); });
+  if (nextBtn) nextBtn.addEventListener("click", () => { setIndex(index + 1); restart(); });
+  
+  let timer = null;
+  const restart = () => { clearInterval(timer); timer = setInterval(() => setIndex(index >= total - 1 ? 0 : index + 1), 5000); };
+  carousel.addEventListener("mouseenter", () => clearInterval(timer));
+  carousel.addEventListener("mouseleave", restart);
+  carousel.addEventListener("touchstart", () => clearInterval(timer), { passive: true });
+  carousel.addEventListener("touchend", restart, { passive: true });
+  window.addEventListener("resize", () => setIndex(Math.min(index, total - 1)), { passive: true });
+  restart();
 }
 
 /* Fleming: on-call pharmacy carousel — shows 2 pharmacies at a time,
@@ -507,7 +567,7 @@ function afterHome() {
 function bindFeaturedDoctorsCarousel() {
   const carousel = document.getElementById("featuredDoctorsCarousel");
   if (!carousel) return;
-  const track = carousel.querySelector(".oc-track");
+  const track = carousel.querySelector(".carousel__track");
   const cards = track ? Array.from(track.querySelectorAll(":scope > article")) : [];
   const total = Number(carousel.getAttribute("data-total") || cards.length);
   const dotsEl = document.getElementById("featuredDoctorsDots");
@@ -518,7 +578,7 @@ function bindFeaturedDoctorsCarousel() {
   const maxIndex = () => Math.max(0, total - getVisible());
   const advance = () => {
     if (!cards[0]) return 0;
-    const gap = 14;
+    const gap = 16;
     const v = getVisible();
     return cards[0].getBoundingClientRect().width * v + gap * (v - 1);
   };
@@ -526,17 +586,17 @@ function bindFeaturedDoctorsCarousel() {
     const v = getVisible();
     const pages = Math.max(1, Math.ceil(total / v));
     dotsEl.innerHTML = Array.from({ length: pages }, (_, i) =>
-      `<button class="scroll-dot ${i === 0 ? "active" : ""}" type="button" data-i="${i}" aria-label="صفحة ${i + 1}"></button>`).join("");
+      `<button class="carousel__dot ${i === 0 ? "active" : ""}" type="button" data-i="${i}" aria-label="صفحة ${i + 1}"></button>`).join("");
   };
   const setIndex = (i) => {
     index = Math.max(0, Math.min(maxIndex(), i));
     const cardW = cards[0] ? cards[0].getBoundingClientRect().width : 0;
     const dir = (document.dir || document.documentElement.dir || "rtl") === "rtl" ? 1 : -1;
-    track.style.transform = cardW ? `translateX(${dir * index * (cardW + 14)}px)` : "none";
+    track.style.transform = cardW ? `translateX(${dir * index * (cardW + 16)}px)` : "none";
     const v = getVisible();
-    const pages = Math.max(1, dotsEl.querySelectorAll(".scroll-dot").length);
+    const pages = Math.max(1, dotsEl.querySelectorAll(".carousel__dot").length);
     const activePage = Math.min(Math.floor(index / v), pages - 1);
-    dotsEl.querySelectorAll(".scroll-dot").forEach((d, j) => d.classList.toggle("active", j === activePage));
+    dotsEl.querySelectorAll(".carousel__dot").forEach((d, j) => d.classList.toggle("active", j === activePage));
   };
   renderDots(); setIndex(0);
   dotsEl.addEventListener("click", (e) => { const b = e.target.closest("[data-i]"); if (!b) return; setIndex(Number(b.dataset.i) * getVisible()); restart(); });
@@ -546,10 +606,11 @@ function bindFeaturedDoctorsCarousel() {
   window.addEventListener("resize", () => { renderDots(); setIndex(Math.min(index, maxIndex())); restart(); }, { passive: true });
   restart();
 }
+
 function bindOncallCarousel() {
   const carousel = document.getElementById("oncallCarousel");
   if (!carousel) return;
-  const track = carousel.querySelector(".oc-track");
+  const track = carousel.querySelector(".carousel__track");
   const cards = track ? Array.from(track.querySelectorAll(":scope > article")) : [];
   const total = Number(carousel.getAttribute("data-total") || cards.length);
   const dotsEl = document.getElementById("oncallDots");
@@ -557,7 +618,7 @@ function bindOncallCarousel() {
 
   const getVisible = () => (window.matchMedia("(max-width: 640px)").matches ? 1 : 2);
   let index = 0;
-  const gap = () => { try { return parseFloat(getComputedStyle(track).gap) || 14; } catch(_){ return 14; } };
+  const gap = () => { try { return parseFloat(getComputedStyle(track).gap) || 16; } catch(_){ return 16; } };
   const maxIndex = () => Math.max(0, total - getVisible());
   const cardW = () => cards[0] ? cards[0].getBoundingClientRect().width : 0;
   const renderDots = () => {
@@ -565,7 +626,7 @@ function bindOncallCarousel() {
     const v = getVisible();
     const pages = Math.max(1, Math.ceil(total / v));
     dotsEl.innerHTML = Array.from({ length: pages }, (_, i) =>
-      `<button class="scroll-dot ${i === 0 ? "active" : ""}" type="button" data-i="${i}" aria-label="صفحة ${i + 1}"></button>`).join("");
+      `<button class="carousel__dot ${i === 0 ? "active" : ""}" type="button" data-i="${i}" aria-label="صفحة ${i + 1}"></button>`).join("");
   };
   const setIndex = (i) => {
     index = Math.max(0, Math.min(maxIndex(), i));
@@ -574,16 +635,12 @@ function bindOncallCarousel() {
     track.style.transform = w ? `translateX(${dir * index * (w + gap())}px)` : "none";
     if (!dotsEl) return;
     const v = getVisible();
-    const pages = Math.max(1, dotsEl.querySelectorAll(".scroll-dot").length);
+    const pages = Math.max(1, dotsEl.querySelectorAll(".carousel__dot").length);
     const activePage = Math.min(Math.floor(index / v), pages - 1);
-    dotsEl.querySelectorAll(".scroll-dot").forEach((d, j) => d.classList.toggle("active", j === activePage));
+    dotsEl.querySelectorAll(".carousel__dot").forEach((d, j) => d.classList.toggle("active", j === activePage));
   };
   renderDots(); setIndex(0);
   if (dotsEl) dotsEl.addEventListener("click", (e) => { const b = e.target.closest("[data-i]"); if (!b) return; setIndex(Number(b.dataset.i) * getVisible()); restart(); });
-  const prevBtn = carousel.querySelector(".oc-arrow-prev");
-  const nextBtn = carousel.querySelector(".oc-arrow-next");
-  if (prevBtn) prevBtn.addEventListener("click", () => { setIndex(index - getVisible()); restart(); });
-  if (nextBtn) nextBtn.addEventListener("click", () => { setIndex(index + getVisible()); restart(); });
   let timer = null;
   const restart = () => { clearInterval(timer); if (maxIndex() > 0) timer = setInterval(() => setIndex(index >= maxIndex() ? 0 : index + getVisible()), 6000); };
   carousel.addEventListener("mouseenter", () => clearInterval(timer));
@@ -643,13 +700,13 @@ function viewList(type, params) {
       <option value="featured" ${f.sort === "featured" ? "selected" : ""}>المميزون أولاً</option>
       <option value="name" ${f.sort === "name" ? "selected" : ""}>الاسم (أ-ي)</option>
     </select>` : "";
-  const clearBtn = (f.q || f.spec || f.area) ? `<button class="btn btn-ghost btn-sm" id="fClear" type="button">${icon("searchX")} مسح التصفية</button>` : "";
+  const clearBtn = (f.q || f.spec || f.area) ? `<button class="btn btn--ghost btn--sm" id="fClear" type="button">${icon("searchX")} مسح التصفية</button>` : "";
 
   return `
   <section class="page-hero">
     <div class="container">
       <nav class="breadcrumb" aria-label="مسار التنقل">
-        <a href="#/">ال Principal</a> ${icon("chevLeft")} <span>${t.plural}</span>
+        <a href="#/">الرئيسية</a> ${icon("chevLeft")} <span>${t.plural}</span>
       </nav>
       <h1>${icon(t.icon)} ${t.plural} في حلفايا</h1>
       <p>${TYPE_INTRO[type]}</p>
@@ -662,7 +719,7 @@ function viewList(type, params) {
       ${areaSel}
       ${sortSel}
       ${clearBtn}
-      <span class="toolbar-count" id="fCount"></span>
+      <span class="toolbar__count" id="fCount"></span>
     </div>
     <div id="listBody"></div>
   </div>`;
@@ -690,8 +747,8 @@ function applyList(type) {
   if (count) count.innerHTML = `<b>${fmtNum(list.length)}</b> نتيجة`;
   if (!body) return;
   body.innerHTML = list.length
-    ? `<div class="cards-grid" style="padding-bottom:52px">${list.map((e) => entityCard(e)).join("")}</div>`
-    : `<div class="empty-state" style="margin-bottom:52px">
+    ? `<div class="cards-grid" style="padding-bottom:var(--space-12)">${list.map((e) => entityCard(e)).join("")}</div>`
+    : `<div class="empty-state" style="margin-bottom:var(--space-12)">
         ${icon("search")}<h3>لا توجد نتائج مطابقة</h3>
         <p>جرّب تعديل كلمة البحث أو إزالة عوامل التصفية.</p>
        </div>`;
@@ -735,8 +792,8 @@ function viewOncall(params) {
     { i: today, label: DAYS[today], badge: "اليوم" },
     { i: tomorrow, label: DAYS[tomorrow], badge: "غداً" },
   ].map((d) => `
-    <button class="day-tab ${d.i === day ? "active" : ""}" type="button" data-day="${d.i}">
-      <span>${esc(d.label)}</span><span class="t-badge${d.i === tomorrow ? " t-badge-tomorrow" : ""}">${d.badge}</span>
+    <button class="tab ${d.i === day ? "active" : ""}" type="button" data-day="${d.i}">
+      <span>${esc(d.label)}</span><span class="tab__count${d.i === tomorrow ? " t-badge-tomorrow" : ""}">${d.badge}</span>
     </button>`).join("");
 
   const cards = list.length ? list.map((p) => oncallCard(p)).join("")
@@ -752,10 +809,15 @@ return `
       <p>جدول مناوبة الصيدليات في حلفايا — اختر اليوم أو غداً.</p>
     </div>
   </section>
-  <div class="container oncall-page" style="padding:26px 0 56px">
-    <div class="day-tabs day-tabs-compact" role="tablist" aria-label="اليوم وغداً">${tabs}</div>
-    <div id="oncallDayNote" class="guides-note" style="margin:14px 0 0">${icon("info")} ${esc(DAYS[day])}${isToday ? " (اليوم)" : " (غداً)"} — ${esc(note)}</div>
-    <div class="cards-grid" style="margin-top:18px">${cards}</div>
+  <div class="container oncall-page" style="padding:var(--space-6) 0 var(--space-12)">
+    <div class="tabs" role="tablist" aria-label="اليوم وغداً">${tabs}</div>
+    <div id="oncallDayNote" class="guides-note" style="margin:var(--space-4) 0">${icon("info")} ${esc(DAYS[day])}${isToday ? " (اليوم)" : " (غداً)"} — ${esc(note)}</div>
+    <div class="carousel" id="oncallCarousel" data-total="${list.length}" style="margin-top:var(--space-6)">
+      <div class="carousel__track">
+        ${cards}
+      </div>
+      <div class="carousel__dots" id="oncallDots" role="tablist" aria-label="صفحات المناوبة"></div>
+    </div>
   </div>`;
 }
 function bindOncall() {
@@ -777,9 +839,9 @@ function viewEntity(id) {
   const related = [...sameArea, ...otherArea].slice(0, 4);
 
   const badges = [];
-  if (e.type === "doctor") badges.push(`<span class="badge badge-blue">${icon("briefcase")} خبرة ${fmtNum(e.exp)} سنة</span>`);
+  if (e.type === "doctor") badges.push(`<span class="badge badge--primary">${icon("briefcase")} خبرة ${fmtNum(e.exp)} سنة</span>`);
 
-  const services = (e.services || []).map((s) => `<span class="mini-tag">${esc(s)}</span>`).join("");
+  const services = (e.services || []).map((s) => `<span class="chip">${esc(s)}</span>`).join("");
 
   return `
   <section class="page-hero detail-hero">
@@ -788,39 +850,40 @@ function viewEntity(id) {
         <a href="#/">الرئيسية</a> ${icon("chevLeft")} <a href="#/${routeSlug(e.type)}">${t.plural}</a> ${icon("chevLeft")} <span>${esc(e.name)}</span>
       </nav>
       <div class="detail-card" style="--tc:${t.color}">
-        <div class="detail-banner"></div>
+        <div class="detail-banner" style="background-image:url('${esc(placeholderFor(e))}')"></div>
         <div class="detail-main">
-          <span class="detail-avatar" style="--tc:${t.color}"><img src="${esc(placeholderFor(e))}" alt="${esc(e.name)}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;" /></span>
+          <div class="detail-avatar">
+            <img src="${esc(placeholderFor(e))}" alt="${esc(e.name)}" />
+          </div>
           <div class="detail-title">
             <h1>${esc(e.name)}</h1>
-            <p class="sub">${e.spec ? esc(e.spec) + " — " : ""}${esc(e.degree || t.label)}${e.owner ? " · " + esc(e.owner) : ""}</p>
-            <div class="entity-badges">${badges.join("")}</div>
+            <p>${e.spec ? esc(e.spec) + " — " : ""}${esc(e.degree || t.label)}${e.owner ? " · " + esc(e.owner) : ""}</p>
+            <div class="detail-badges">${badges.join("")}</div>
           </div>
         </div>
         <div class="detail-actions">
-          <a class="btn btn-primary" href="${telHref(e.phone)}">${icon("phone")} اتصال</a>
-          ${e.whatsapp ? `<a class="btn btn-ghost" href="${waHref(e.phone)}" target="_blank" rel="noopener">${icon("chat")} واتساب</a>` : ""}
-          ${(e.type !== "pharmacy" && e.type !== "doctor") ? `<a class="btn btn-outline" href="${mapsLink(e.lat, e.lng, e.address)}" target="_blank" rel="noopener">${icon("pin")} الموقع</a>` : ""}
-          ${e.type !== "pharmacy" ? `<button class="btn btn-ghost" type="button" data-copy="${esc(e.phone)}">${icon("copy")} نسخ الرقم</button>` : ""}
-          <button class="btn btn-ghost btn-icon" type="button" id="btnShare" title="مشاركة" aria-label="مشاركة">${icon("share")}</button>
+          <a class="btn btn--primary" href="${telHref(e.phone)}">${icon("phone")} اتصال</a>
+          ${e.whatsapp ? `<a class="btn btn--outline" href="${waHref(e.phone)}" target="_blank" rel="noopener">${icon("chat")} واتساب</a>` : ""}
+          ${(e.type !== "pharmacy" && e.type !== "doctor") ? `<a class="btn btn--outline" href="${mapsLink(e.lat, e.lng, e.address)}" target="_blank" rel="noopener">${icon("pin")} الموقع</a>` : ""}
+          ${e.type !== "pharmacy" ? `<button class="btn btn--ghost" type="button" data-copy="${esc(e.phone)}">${icon("copy")} نسخ الرقم</button>` : ""}
+          <button class="btn btn--ghost btn--icon" type="button" id="btnShare" title="مشاركة" aria-label="مشاركة">${icon("share")}</button>
         </div>
         <div class="detail-info">
           <div class="info-box">${icon("pin")}
-            <div><h4>العنوان</h4><p>${esc(e.area)}</p><small>${esc(e.address)}</small></div>
+            <div class="info-box__content"><h4 class="info-box__title">العنوان</h4><p class="info-box__text">${esc(e.area)}</p><small class="info-box__meta">${esc(e.address)}</small></div>
           </div>
           <div class="info-box">${icon("clock")}
-            <div><h4>أوقات العمل</h4><p>${esc(e.hours)}</p></div>
+            <div class="info-box__content"><h4 class="info-box__title">أوقات العمل</h4><p class="info-box__text">${esc(e.hours)}</p></div>
           </div>
           <div class="info-box">${icon("phone")}
-            <div><h4>الهاتف</h4><p class="phone-line"><span dir="ltr">${fmtPhone(e.phone)}</span></p>
-            <small>اضغط زر الاتصال أعلاه للاتصال مباشرة</small></div>
+            <div class="info-box__content"><h4 class="info-box__title">الهاتف</h4><p class="info-box__text phone-link"><span dir="ltr">${fmtPhone(e.phone)}</span></p><small class="info-box__meta">اضغط زر الاتصال أعلاه للاتصال مباشرة</small></div>
           </div>
           ${e.type === "doctor" ? `
           <div class="info-box">${icon("user")}
-            <div><h4>الصفة</h4><p>${esc(e.degree)}</p><small>${esc(e.spec)}</small></div>
+            <div class="info-box__content"><h4 class="info-box__title">الصفة</h4><p class="info-box__text">${esc(e.degree)}</p><small class="info-box__meta">${esc(e.spec)}</small></div>
           </div>` : ""}
         </div>
-        ${e.note ? `<div style="padding:0 22px 20px"><div class="note-box">${icon("info")}<p>${esc(e.note)}</p></div></div>` : ""}
+        ${e.note ? `<div class="medical-note" style="margin:var(--space-6) var(--space-6) 0">${icon("info")}<p>${esc(e.note)}</p></div>` : ""}
       </div>
     </div>
   </section>
@@ -830,7 +893,7 @@ function viewEntity(id) {
     ${services ? `
     <div class="detail-section">
       <div class="section-head"><div><h2>${e.type === "doctor" ? "التخصصات والخدمات" : "الخدمات المتوفرة"}</h2></div></div>
-      <div class="chips-lg">${services}</div>
+      <div class="chips">${services}</div>
     </div>` : ""}
     ${e.type === "doctor" ? "" : `
     <div class="detail-section">
@@ -861,7 +924,7 @@ function afterEntity(id) {
 /* ================= العرض: اسأل طبياً ================= */
 function viewAsk() {
   const cats = ["الكل", ...new Set((FAQ || []).map((f) => f.cat).filter(Boolean))];
-  const chips = cats.map((c) => `<button class="guide-cat-chip${c === (state.askCat || "الكل") ? " is-active" : ""}" type="button" data-ask-cat="${esc(c)}">${esc(c)}</button>`).join("");
+  const chips = cats.map((c) => `<button class="tab${c === (state.askCat || "الكل") ? " active" : ""}" type="button" data-ask-cat="${esc(c)}">${esc(c)}</button>`).join("");
   return `
   <section class="page-hero">
     <div class="container">
@@ -873,13 +936,13 @@ function viewAsk() {
     </div>
   </section>
   <div class="container page-wrap">
-    <div class="guides-panel">
+    <div class="card guides-panel">
       <div class="guides-search-wrap">
         <label class="guides-search" for="askQ">
           <span class="guides-search-ic" aria-hidden="true">${icon("search")}</span>
           <input id="askQ" type="search" placeholder="ابحث عن سؤال أو عرض صحي…" value="${esc(state.askQuery || "")}" aria-label="بحث في الإرشادات الطبية" autocomplete="off" />
         </label>
-        <div class="guides-cats" id="askCats" aria-label="تصنيفات الإرشادات">${chips}</div>
+        <div class="tabs" id="askCats" aria-label="تصنيفات الإرشادات">${chips}</div>
       </div>
       <div class="faq-list" id="faqList"></div>
       <div class="guides-note">${icon("info")} هذه الإرشادات للتوعية العامة ولا تغني عن مراجعة الطبيب أو الصيدلي.</div>
@@ -895,9 +958,9 @@ function applyFaq() {
     (!nq || (f.q + " " + f.a + " " + f.cat).toLowerCase().includes(nq)));
   list.innerHTML = items.length
     ? items.map((f) => `
-      <details class="acc-item">
-        <summary><span class="acc-q">؟</span> <span class="acc-q-text">${esc(f.q)}</span>${icon("chevDown", "chev")}</summary>
-        <div class="acc-body"><p>${esc(f.a)}</p></div>
+      <details class="faq-item">
+        <summary class="faq-question"><span class="faq-icon">${icon("shield")}</span> <span class="faq-text">${esc(f.q)}</span>${icon("chevDown", "faq-chevron")}</summary>
+        <div class="faq-answer"><p>${esc(f.a)}</p></div>
       </details>`).join("")
     : `<div class="empty-state">${icon("search")}<h3>لا توجد إرشادات مطابقة</h3><p>جرّب كلمات أخرى أو اختر تصنيفاً مختلفاً.</p></div>`;
 }
@@ -920,7 +983,7 @@ function bindAsk() {
 function bindAskRenderCats(){
   var cats = document.getElementById("askCats"); if (!cats) return;
   var all = ["الكل"].concat(Array.from(new Set((FAQ||[]).map(function(f){return f.cat;}).filter(Boolean))));
-  cats.innerHTML = all.map(function(c){ return '<button class="guide-cat-chip'+(c === (state.askCat||"الكل") ? ' is-active' : '')+'" type="button" data-ask-cat="'+esc(c)+'">'+esc(c)+'</button>'; }).join("");
+  cats.innerHTML = all.map(function(c){ return '<button class="tab'+(c === (state.askCat||"الكل") ? ' active' : '')+'" type="button" data-ask-cat="'+esc(c)+'">'+esc(c)+'</button>'; }).join("");
 }
 
 function viewSearch(params) {
@@ -934,29 +997,40 @@ function viewSearch(params) {
   const groupSections = Object.entries(groups).map(([type, items]) => {
     const t = TYPES[type];
     return `
-    <section class="s-group">
-      <h2 class="group-title"><span class="g-sq" style="--tc:${t.color}"></span>${t.plural} <span class="g-count">(${fmtNum(items.length)})</span></h2>
-      <div class="s-rows">
+    <section class="s-group" style="margin-bottom:var(--space-8)">
+      <h2 class="group-title" style="font-family:var(--font-heading);font-size:1.1rem;font-weight:800;color:var(--text);margin-bottom:var(--space-4);display:flex;align-items:center;gap:var(--space-2)"><span class="g-sq" style="width:8px;height:8px;border-radius:50%;background:${t.color}"></span>${t.plural} <span class="g-count" style="color:var(--text-muted);font-size:0.9rem;font-weight:600">(${fmtNum(items.length)})</span></h2>
+      <div class="s-rows" style="display:flex;flex-direction:column;gap:var(--space-2)">
         ${items.map((e) => `
-          <a class="result-row" href="#/entity/${e.id}">
-            <span class="r-icon" style="--tc:${t.color}">${icon(t.icon)}</span>
-            <span class="r-body">
-              <b>${esc(e.name)}</b>
-              <small>${esc(e.spec || t.label)}${e.area ? " — " + esc(e.area) : ""}</small>
-            </span>
+          <a class="result-row entity-card entity-card--min" href="#/entity/${e.id}" style="--tc:${t.color}">
+            <div class="entity-card__inner">
+              <div class="entity-card__media" style="width:60px;height:60px;aspect-ratio:1">
+                <img src="${esc(placeholderFor(e))}" alt="${esc(e.name)}" loading="lazy" />
+              </div>
+              <div class="entity-card__body">
+                <p class="entity-card__name">${esc(e.name)}</p>
+                <p class="entity-card__meta"><span class="entity-card__dot"></span>${esc(e.spec || t.label)}${e.area ? " — " + esc(e.area) : ""}</p>
+              </div>
+            </div>
           </a>`).join("")}
       </div>
     </section>`;
   }).join("");
 
   const faqSection = faqs.length ? `
-    <section class="s-group">
-      <h2 class="group-title"><span class="g-sq" style="--tc:var(--gold-dark)"></span>أسئلة وأجوبة <span class="g-count">(${fmtNum(faqs.length)})</span></h2>
-      <div class="s-rows">
+    <section class="s-group" style="margin-bottom:var(--space-8)">
+      <h2 class="group-title" style="font-family:var(--font-heading);font-size:1.1rem;font-weight:800;color:var(--text);margin-bottom:var(--space-4);display:flex;align-items:center;gap:var(--space-2)"><span class="g-sq" style="width:8px;height:8px;border-radius:50%;background:var(--accent)"></span>أسئلة وأجوبة <span class="g-count" style="color:var(--text-muted);font-size:0.9rem;font-weight:600">(${fmtNum(faqs.length)})</span></h2>
+      <div class="s-rows" style="display:flex;flex-direction:column;gap:var(--space-2)">
         ${faqs.map((f) => `
-          <a class="result-row" href="#/ask">
-            <span class="r-icon" style="--tc:var(--gold-dark)">${icon("doc")}</span>
-            <span class="r-body"><b>${esc(f.q)}</b><small>${esc(f.cat)}</small></span>
+          <a class="result-row entity-card entity-card--min" href="#/ask" style="--tc:var(--accent)">
+            <div class="entity-card__inner">
+              <div class="entity-card__media" style="width:60px;height:60px;aspect-ratio:1;background:var(--accent-soft);display:flex;align-items:center;justify-content:center">
+                ${icon("doc")}
+              </div>
+              <div class="entity-card__body">
+                <p class="entity-card__name">${esc(f.q)}</p>
+                <p class="entity-card__meta"><span class="entity-card__dot"></span>${esc(f.cat)}</p>
+              </div>
+            </div>
           </a>`).join("")}
       </div>
     </section>` : "";
@@ -967,7 +1041,7 @@ function viewSearch(params) {
     <form class="search-big" id="searchBigForm">
       ${icon("search")}
       <input id="searchBigInput" type="search" placeholder="ابحث عن طبيب، اختصاص، عيادة، صيدلية أو خدمة طبية..." value="${esc(q)}" autocomplete="off" />
-      <button class="btn btn-primary" type="submit">بحث</button>
+      <button class="btn btn--primary" type="submit">بحث</button>
     </form>
 
     <div class="s-groups">
@@ -976,7 +1050,7 @@ function viewSearch(params) {
         ${icon("searchX")}
         <h3>لا توجد نتائج لـ «${esc(q)}»</h3>
         <p>جرّب كلمات بحث أخرى أو تصفح الأقسام الرئيسية.</p>
-        <div class="chip-row" style="justify-content:center;margin-top:12px">
+        <div class="chips" style="justify-content:center;margin-top:var(--space-4)">
           <a class="chip" href="#/doctors">الأطباء</a>
           <a class="chip" href="#/pharmacies">الصيدليات</a>
           <a class="chip" href="#/oncall">الصيدليات المناوبة</a>
@@ -1142,7 +1216,7 @@ function viewLogin() {
             <input id="lgPass" type="password" dir="ltr" placeholder="كلمة السر المرسلة لك" autocomplete="current-password" />
           </div>
           <p class="login-error" id="loginError" hidden>بيانات الدخول غير صحيحة</p>
-          <button class="btn btn-primary btn-block" type="submit">${icon("key")} دخول</button>
+          <button class="btn btn--primary btn--block" type="submit">${icon("key")} دخول</button>
         </form>
         <p class="login-note">بيانات الدخول تُسلَّم لك عند تفعيل اشتراكك من قبل إدارة المنصة.</p>
         <p class="login-forgot"><a href="https://cfcsnhuozufqaejkgrje.supabase.co/auth/v1/resetpassword" target="_blank" rel="noopener">${icon("key")} نسيت كلمة السر؟</a></p>
@@ -1154,12 +1228,13 @@ function viewLogin() {
 function view404() {
   return `
   <div class="container page-wrap">
-    <div class="empty-state" style="padding:80px 20px">
-      <h3 style="font-size:26px">404 — الصفحة غير موجودة</h3>
+    <div class="empty-state" style="padding:var(--space-12) var(--space-6)">
+      ${icon("searchX")}
+      <h3>404 — الصفحة غير موجودة</h3>
       <p>يبدو أن الرابط الذي تبحث عنه تغيّر أو حُذف.</p>
-      <div style="margin-top:18px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
-        <a class="btn btn-primary" href="#/">العودة للرئيسية</a>
-        <a class="btn btn-ghost" href="#/doctors">تصفّح الأطباء</a>
+      <div style="margin-top:var(--space-6);display:flex;gap:var(--space-3);justify-content:center;flex-wrap:wrap">
+        <a class="btn btn--primary" href="#/">العودة للرئيسية</a>
+        <a class="btn btn--ghost" href="#/doctors">تصفّح الأطباء</a>
       </div>
     </div>
   </div>`;
@@ -1210,7 +1285,7 @@ function viewTerms() {
 
 function viewDisclaimer() {
   return pageShell("إخلاء المسؤولية الطبية", "alert", `
-    <div class="note-box">${icon("alert")}<p><strong>المعلومات في هذا الموقع توعوية عامة وليست استشارة طبية.</strong></p></div>
+    <div class="medical-note">${icon("alert")}<p><strong>المعلومات في هذا الموقع توعوية عامة وليست استشارة طبية.</strong></p></div>
     <h2>المحتوى التوعوي</h2>
     <p>الإجابات والإرشادات المنشورة في «اسأل طبياً» وبقية الصفحات مُعدّة بلغة مبسطة لأغراض التثقيف الصحي العام، وهي لا تشكّل تشخيصاً ولا خطة علاج ولا بديلاً عن الفحص السريري المباشر.</p>
     <h2>لا تعتمد عليها في الحالات الحرجة</h2>
@@ -1256,7 +1331,7 @@ function pageShell(title, ic, body) {
       <p>آخر تحديث: ${new Date().toLocaleDateString("ar-SY", { year: "numeric", month: "long", day: "numeric" })}</p>
     </div>
   </section>
-  <div class="container page-wrap"><div class="prose">${body}</div></div>`;
+  <div class="container page-wrap"><div class="prose">${body.replace(/class="note-box"/g, 'class="medical-note"')}</div></div>`;
 }
 
 /* ================= تكامل Supabase (اختياري مع fallback محلي) ================= */
@@ -1430,9 +1505,9 @@ function viewDashboard() {
           <span class="l-icon">${icon("shieldCheck")}</span>
           <h1>أنت مدير النظام</h1>
           <p>اللوحة الشاملة (الجهات، الإعلانات، الأسئلة، الرسائل، حسابات الجهات) في رابط مستقل لا يُعرض داخل موقع الزوار.</p>
-          <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:16px">
-            <a class="btn btn-primary" href="/admin.html" target="_blank" rel="noopener">${icon("key")} فتح لوحة إدارة النظام</a>
-            <button class="btn btn-ghost" type="button" id="dashLogout">${icon("x")} خروج</button>
+          <div style="display:flex;gap:var(--space-3);justify-content:center;flex-wrap:wrap;margin-top:var(--space-4)">
+            <a class="btn btn--primary" href="/admin.html" target="_blank" rel="noopener">${icon("key")} فتح لوحة إدارة النظام</a>
+            <button class="btn btn--ghost" type="button" id="dashLogout">${icon("x")} خروج</button>
           </div>
         </div>
       </div>
@@ -1447,8 +1522,8 @@ function viewDashboard() {
         <p dir="ltr">${esc(s.email || "")}</p>
       </div>
       <div class="dash-head-actions">
-        <button class="btn btn-outline btn-sm" id="dashLogout" type="button">${icon("x")} خروج</button>
-        <a class="btn btn-primary btn-sm" href="#/">${icon("home")} عرض الموقع</a>
+        <button class="btn btn--outline btn--sm" id="dashLogout" type="button">${icon("x")} خروج</button>
+        <a class="btn btn--primary btn--sm" href="#/">${icon("home")} عرض الموقع</a>
       </div>
     </div>
     <div id="entityPanel"><p class="s-hint">جارٍ التحميل…</p></div>
@@ -1483,7 +1558,7 @@ async function bindDashboard() {
     <div class="empty-state">
       ${icon("info")}<h3>حسابك غير مرتبط بجهة بعد</h3>
       <p>ترتبط الحسابات بالجهات من قبل إدارة المنصة عند تفعيل الاشتراك.</p>
-      <a class="btn btn-primary" style="margin-top:12px" href="${wa}" target="_blank" rel="noopener">${icon("chat")} تواصل مع الإدارة لربط حسابك</a>
+      <a class="btn btn--primary" style="margin-top:var(--space-3)" href="${wa}" target="_blank" rel="noopener">${icon("chat")} تواصل مع الإدارة لربط حسابك</a>
     </div>`;
     return;
   }
@@ -1499,9 +1574,9 @@ async function bindDashboard() {
   }
 
   panel.innerHTML = `
-  <div class="note-box" style="margin-bottom:14px">${icon("info")}<p>هذه لوحة جهتك — عدّل بيانات صفحتك وتظهر في الموقع فور الحفظ. حقول التمييز والإدارة يديرها فريق المنصة.</p></div>
+  <div class="medical-note" style="margin-bottom:var(--space-4)">${icon("info")}<p>هذه لوحة جهتك — عدّل بيانات صفحتك وتظهر في الموقع فور الحفظ. حقول التمييز والإدارة يديرها فريق المنصة.</p></div>
   <div class="card">
-    <h3 style="margin-bottom:14px">${icon("doc")} ملف: ${esc(e.name)}</h3>
+    <h3 style="margin-bottom:var(--space-4)">${icon("doc")} ملف: ${esc(e.name)}</h3>
     <form id="ownForm" class="ef-grid" novalidate>
       <label>الاسم
         <input id="owName" value="${esc(e.name || "")}" required />
@@ -1532,7 +1607,7 @@ async function bindDashboard() {
         </div>
       </div>` : ""}
       <div class="ef-full ef-actions">
-        <button class="btn btn-primary" type="submit">${icon("check")} حفظ التعديلات</button>
+        <button class="btn btn--primary" type="submit">${icon("check")} حفظ التعديلات</button>
       </div>
     </form>
   </div>`;
@@ -1629,44 +1704,6 @@ function updateEntityBtn() {
 }
 
 
-function featuredDoctorBigCard(d){
-  const t=TYPES[d.type]||TYPES.doctor; const addr=[d.area,d.address].filter(Boolean).join(" — ");
-  return `<article class="fdoc-card" data-go="#/entity/${d.id}" tabindex="0" role="link" aria-label="${esc(d.name)}">
-    <div class="fdoc-media"><img src="${esc(placeholderFor(d))}" alt="${esc(d.name)}" loading="lazy" />${d.rank?`<span class="rank-ribbon">${icon("star")} ${fmtNum(d.rank)}</span>`:""}</div>
-    <div class="fdoc-body">
-      <p class="fdoc-name">${esc(d.name)}</p>
-      <p class="fdoc-spec">${icon(t.icon)} ${esc(d.spec||t.label)}</p>
-      ${d.exp?`<p class="fdoc-meta">${icon("briefcase")} خبرة ${fmtNum(d.exp)} سنة</p>`:""}
-      ${addr?`<p class="fdoc-meta">${icon("pin")} ${esc(addr)}</p>`:""}
-      ${d.hours?`<p class="fdoc-meta">${icon("clock")} ${esc(d.hours)}</p>`:""}
-      <div class="fdoc-actions">
-        ${d.phone?`<a class="btn btn-primary fdoc-call" data-stop href="${telHref(d.phone)}" dir="ltr">${icon("phone")} ${fmtPhone(d.phone)}</a>`:""}
-        <a class="btn btn-ghost fdoc-open" data-stop href="#/entity/${d.id}">التفاصيل</a>
-      </div>
-    </div>
-  </article>`;
-}
-function viewFeatured() {
-  const doctors = featuredBy("doctor");
-  const pharmacies = featuredBy("pharmacy");
-  return `
-  <section class="featured-page">
-    <div class="container">
-      <div class="featured-head">
-        <a class="featured-back" href="#/" aria-label="الرئيسية">${icon("chevRight")}</a>
-        <div><h1>${icon("star")} المميزون</h1><p>أفضل الأطباء والصيدليات في حلفايا</p></div>
-      </div>
-    </div>
-    <section class="section container" style="padding-top:8px">
-      <div class="section-head"><div><h2>${icon("steth")} الأطباء المميزون</h2><p>${fmtNum(doctors.length)} طبيب — اضغط للتفاصيل</p></div><a class="section-link" href="#/doctors">الكل ${icon("arrowLeft")}</a></div>
-      ${doctors.length ? `<div class="fdoc-grid">${doctors.map(featuredDoctorBigCard).join("")}</div>` : `<div class="empty-state" style="margin:0">${icon("search")}<h3>لا يوجد أطباء مميزون حالياً</h3></div>`}
-    </section>
-    <section class="section container" style="padding-bottom:calc(28px + env(safe-area-inset-bottom,0px))">
-      <div class="section-head"><div><h2>${icon("pill")} الصيدليات المميزة</h2><p>${fmtNum(pharmacies.length)} صيدلية</p></div><a class="section-link" href="#/pharmacies">الكل ${icon("arrowLeft")}</a></div>
-      ${pharmacies.length ? `<div class="cards-grid featured-pharm-grid">${pharmacies.map(function(p){ return entityCard(p,{image:true,hours:true}); }).join("")}</div>` : `<div class="empty-state">${icon("search")}<h3>لا توجد صيدليات مميزة حالياً</h3></div>`}
-    </section>
-  </section>`;
-}
 function afterFeatured(){}
 /* ================= التوجيه ================= */
 const ROUTES = [
@@ -1808,6 +1845,31 @@ async function initNotificationsUI() {
   });
 }
 
+/* ================= الترويسة: إخفاء/إظهار عند التمرير ================= */
+let lastScrollY = 0;
+function initHeaderScroll() {
+  const header = $("#mainbar");
+  const bottomNav = $("#bottomNav");
+  if (!header) return;
+  window.addEventListener("scroll", () => {
+    const currentScrollY = window.scrollY;
+    if (currentScrollY > 100) {
+      header.classList.add("scrolled");
+    } else {
+      header.classList.remove("scrolled");
+    }
+    // Hide bottom nav on scroll down, show on scroll up
+    if (bottomNav) {
+      if (currentScrollY > lastScrollY && currentScrollY > 200) {
+        bottomNav.classList.add("hidden");
+      } else {
+        bottomNav.classList.remove("hidden");
+      }
+    }
+    lastScrollY = currentScrollY;
+  }, { passive: true });
+}
+
 /* ================= الإقلاع ================= */
 (async function boot() {
   try {
@@ -1815,6 +1877,7 @@ async function initNotificationsUI() {
     if (year) year.textContent = fmtNum(new Date().getFullYear());
 
     initHeader();
+    initHeaderScroll();
     await initNotificationsUI();
     window.addEventListener("hashchange", render);
     if (!location.hash) location.replace("#/");
