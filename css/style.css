@@ -635,12 +635,9 @@ button { cursor: pointer; border: 0; background: none; }
   flex: none;
   width: 160px;
   min-width: 160px;
-  height: 100%;
-  min-height: 132px;
+  aspect-ratio: 1 / 1;
+  align-self: stretch;
   background: linear-gradient(135deg, var(--primary-soft), #E8F4F6);
-  display: flex;
-  align-items: center;
-  justify-content: center;
   overflow: hidden;
 }
 .oc-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
@@ -703,7 +700,7 @@ button { cursor: pointer; border: 0; background: none; }
   #oncallCarousel .oncall-card,
   #featuredDoctorsCarousel .oncall-card { flex: 0 0 100%; width: 100%; flex-direction: row; }
   #oncallCarousel .oc-media,
-  #featuredDoctorsCarousel .oc-media { width: 96px; min-width: 96px; height: auto; min-height: 120px; }
+  #featuredDoctorsCarousel .oc-media { width: 112px; min-width: 112px; aspect-ratio: 1 / 1; align-self: stretch; }
   #oncallCarousel .oc-body,
   #featuredDoctorsCarousel .oc-body { padding: 10px 11px; }
   .oc-head .oc-badge { margin-inline-start: 0; }
@@ -1235,7 +1232,7 @@ button { cursor: pointer; border: 0; background: none; }
 @media (max-width: 640px) {
   .oncall-carousel, #oncallCarousel, #featuredDoctorsCarousel { padding: 4px 4px; overflow: hidden; }
   .oncall-card { flex: 0 0 100%; width: 100%; min-width: 0; max-width: 100%; flex-direction: row; align-items: stretch; box-sizing: border-box; }
-  .oc-media { width: 88px; min-width: 88px; height: auto; min-height: 110px; }
+  .oc-media { width: 112px; min-width: 112px; aspect-ratio: 1 / 1; align-self: stretch; }
   .oc-body { padding: 10px 11px; gap: 3px; min-width: 0; }
   .oc-name { font-size: 14px; }
   .oc-spec, .oc-addr, .oc-hours { font-size: 11.5px; }
@@ -1248,7 +1245,6 @@ button { cursor: pointer; border: 0; background: none; }
 .ec-media img, .ec-media--lg img, .detail-avatar img, .fdoc-media img { width: 100%; height: 100%; object-fit: contain; display: block; background: transparent; }
 .ec-media { position: relative; }
 .ec-media .ic { display: none; }
-.oc-media img { width: 100%; height: 100%; min-height: inherit; object-fit: contain; display: block; background: transparent; }
 .detail-avatar { overflow: hidden; padding: 0; }
 .detail-avatar > img { width: 100%; height: 100%; object-fit: cover; border-radius: inherit; display: block; }
 
