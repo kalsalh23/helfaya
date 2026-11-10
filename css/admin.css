@@ -1,24 +1,365 @@
-/* admin.css rewritten - compatible with admin.html + style.css */
-.adm-body{background:var(--subtle);color:var(--ink)}.adm-login[hidden],.adm-app[hidden]{display:none!important}
-.adm-login{min-height:100dvh;display:flex;align-items:center;justify-content:center;padding:20px;background:linear-gradient(145deg,var(--primary-dark),var(--primary-darker) 60%,var(--primary))}
-.adm-login-card{width:100%;max-width:420px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-xl);padding:30px 26px;box-shadow:var(--shadow-pop);text-align:center}
-.adm-login-ic{width:56px;height:56px;margin:0 auto 14px;border-radius:var(--r-lg);display:inline-flex;align-items:center;justify-content:center;background:var(--primary);color:#fff}.adm-login-ic .ic{width:26px;height:26px}
-.adm-login-card h1{font-size:20px;margin:0 0 6px}.adm-login-card>p{font-size:13px;color:var(--ink-subtle);margin:0 0 18px}
-.adm-login-card input{width:100%;min-height:46px;margin-bottom:10px;padding:10px 14px;border:1px solid var(--border-strong);border-radius:var(--r-md);background:var(--surface);color:var(--ink);font-size:16px;text-align:start}
-.adm-login-card input:focus{border-color:var(--primary);box-shadow:var(--shadow-glow);outline:none}.adm-login-err{color:var(--error);font-size:13px;font-weight:700;margin:0 0 10px}.adm-back{display:inline-block;margin-top:14px;font-size:13px;color:var(--ink-subtle)}.adm-back:hover{color:var(--primary)}
-.adm-app{display:flex;min-height:100dvh;background:var(--subtle);align-items:flex-start}
-.adm-side{width:232px;flex:0 0 232px;display:flex;flex-direction:column;padding:18px 14px;background:linear-gradient(180deg,var(--primary-dark),var(--primary-darker));color:#fff;position:sticky;top:0;height:100dvh;overflow-y:auto}
-.adm-brand{padding:4px 10px 16px;border-bottom:1px solid rgba(255,255,255,.14);margin-bottom:12px}.adm-brand strong{display:block;font-size:16px}.adm-brand small{font-size:11.5px;color:var(--accent-light);font-weight:700}
-.adm-nav{display:flex;flex-direction:column;gap:4px;flex:1}.adm-nav button{width:100%;min-height:42px;padding:10px 14px;border:0;border-radius:var(--r-md);background:transparent;color:rgba(255,255,255,.78);text-align:start;font:inherit;font-size:13.5px;font-weight:700;cursor:pointer}.adm-nav button:hover{background:rgba(255,255,255,.09);color:#fff}.adm-nav button.active{background:var(--primary);color:#fff}
-.adm-side-foot{border-top:1px solid rgba(255,255,255,.14);padding-top:12px;display:grid;gap:8px;margin-top:8px}.adm-who{margin:0;font-size:11.5px;color:rgba(255,255,255,.65);overflow-wrap:anywhere}.adm-logout{min-height:40px;border:1px solid rgba(255,255,255,.24);background:transparent;color:#fff;border-radius:var(--r-md);padding:8px 12px;font:inherit;font-size:12.5px;font-weight:700;cursor:pointer}.adm-logout:hover{background:rgba(255,255,255,.1)}.adm-site-link{font-size:12.5px;color:var(--accent-light);text-align:center;font-weight:700;text-decoration:none}.adm-site-link:hover{color:#fff}
-.adm-main{flex:1;min-width:0;padding:20px 18px 32px}.adm-main h1{font-size:22px;margin:0}.adm-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:16px}.adm-head p{margin:4px 0 0;font-size:13.5px;color:var(--ink-subtle)}
-.adm-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:18px;box-shadow:var(--shadow-card);margin-bottom:14px}.adm-card h3{margin:0 0 12px;font-size:16px}
-.adm-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:18px}.adm-stat{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:16px;box-shadow:var(--shadow-card)}.adm-stat b{display:block;font-size:24px;color:var(--primary-dark);line-height:1.2}.adm-stat span{font-size:12.5px;color:var(--ink-subtle)}
-.adm-list{display:flex;flex-direction:column;gap:8px}.adm-row{display:flex;align-items:flex-start;gap:12px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);padding:12px 14px}.adm-row .di-body{flex:1;min-width:0}.adm-row .di-main{margin:0;font-size:14px;font-weight:800;color:var(--ink);overflow-wrap:anywhere}.adm-row .di-main .badge{margin-inline-start:6px;vertical-align:middle}.adm-row .di-meta{margin:4px 0 0;font-size:12.5px;color:var(--ink-subtle);overflow-wrap:anywhere}.adm-row .di-actions{display:flex;flex-wrap:wrap;gap:6px;align-items:center;flex-shrink:0}
-.adm-toolbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:14px}.adm-search{flex:0 1 320px;display:flex;align-items:center;gap:8px;min-height:42px;background:var(--surface);border:1px solid var(--border-strong);border-radius:var(--r-md);padding:0 12px}.adm-search .ic{width:16px;height:16px;color:var(--ink-subtle)}.adm-search input{flex:1;min-width:0;border:0;outline:0;background:transparent;color:var(--ink);font-size:14px;padding:0;margin:0;min-height:0;box-shadow:none}.adm-hint{font-size:12.5px;color:var(--ink-subtle);margin:0}
-.adm-form-wrap:empty{display:none}.adm-form-wrap{margin-bottom:14px}.adm-form-wrap .adm-card{margin-bottom:0}
-.adm-empty{text-align:center;padding:38px 18px;color:var(--ink-subtle)}.adm-empty .ic{width:38px;height:38px;color:var(--accent);margin-bottom:8px}.adm-empty h3{font-size:17px;color:var(--ink);margin:0 0 4px}.adm-empty p{font-size:13.5px;margin:0}
-.adm-upload{display:grid;gap:8px;padding:12px;border:1px dashed var(--border-strong);border-radius:var(--r-md);background:var(--surface-alt)}.adm-upload input[type=file]{font-size:14px;max-width:100%}.adm-img-prev{max-width:170px;max-height:130px;width:auto;border-radius:var(--r-md);object-fit:cover;border:1px solid var(--border);background:var(--surface);display:block}.adm-img-prev[hidden]{display:none!important}
-.adm-main .ef-check{display:inline-flex;flex-direction:row;align-items:center;gap:8px;font-size:13.5px;min-height:40px}.adm-main .ef-check input{width:18px;height:18px;min-height:0}
-.adm-main table{width:100%;border-collapse:collapse;font-size:14px}.adm-main th,.adm-main td{text-align:start;vertical-align:top}
-@media (max-width:860px){.adm-app{flex-direction:column}.adm-side{width:100%;flex:none;height:auto;position:static;padding:12px}.adm-brand{border:0;margin:0;padding:0 4px 4px}.adm-nav{flex-direction:row;flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;gap:6px}.adm-nav button{flex:0 0 auto;white-space:nowrap;min-height:40px;padding:9px 12px;font-size:13px}.adm-side-foot{border:0;padding:2px 0 0;display:flex;flex-wrap:wrap;align-items:center;gap:8px}.adm-who{width:100%}.adm-main{max-width:100%;padding:14px 12px 24px}.adm-stats{grid-template-columns:repeat(2,minmax(0,1fr))}.adm-row{flex-direction:column;gap:10px}.adm-row .di-actions{width:100%}.adm-toolbar{gap:8px}.adm-search{flex:1 1 100%}.adm-main .adm-head .btn{width:100%;justify-content:center}}}
+/* ============================================================
+   دليل حلفايا الطبي — لوحة الإدارة (CSS مخصص)
+   هوية بصرية موحّدة مع css/style.css
+   ============================================================ */
+
+.adm-body { background: var(--bg); min-height: 100vh; }
+
+/* ================= شاشة الدخول ================= */
+.adm-login {
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(135deg, var(--brand), var(--brand-dark));
+  z-index: var(--z-modal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-6);
+}
+
+.adm-login-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-10);
+  width: 100%;
+  max-width: 420px;
+  box-shadow: var(--shadow-xl);
+  text-align: center;
+}
+
+.adm-login-ic {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-lg);
+  background: var(--brand-soft);
+  color: var(--brand-dark);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: var(--space-6);
+  box-shadow: var(--shadow);
+}
+
+.adm-login-ic .ic { width: 28px; height: 28px; }
+
+.adm-login h1 {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--text);
+  margin-bottom: var(--space-2);
+}
+
+.adm-login p {
+  color: var(--text-soft);
+  font-size: 0.9rem;
+  margin-bottom: var(--space-6);
+  line-height: 1.6;
+}
+
+.adm-login-err {
+  color: var(--error);
+  font-size: 0.85rem;
+  margin-bottom: var(--space-4);
+  background: var(--error-soft);
+  padding: var(--space-3);
+  border-radius: var(--radius);
+  border: 1px solid color-mix(in srgb, var(--error) 20%, var(--border));
+}
+
+.adm-back {
+  display: inline-block;
+  margin-top: var(--space-6);
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: color var(--transition);
+}
+.adm-back:hover { color: var(--brand); }
+
+/* ================= واجهة التطبيق ================= */
+.adm-app { display: flex; height: 100vh; overflow: hidden; }
+
+.adm-side {
+  width: 260px;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  z-index: var(--z-nav);
+}
+
+.adm-brand {
+  padding: var(--space-6);
+  border-bottom: 1px solid var(--border);
+}
+
+.adm-brand strong {
+  display: block;
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--text);
+}
+.adm-brand small {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-top: var(--space-1);
+}
+
+.adm-nav {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--space-4) 0;
+}
+
+.adm-nav button {
+  width: 100%;
+  text-align: right;
+  padding: var(--space-3) var(--space-5);
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-soft);
+  border-radius: var(--radius);
+  margin: var(--space-1) var(--space-4);
+  transition: all var(--transition);
+  white-space: nowrap;
+}
+
+.adm-nav button:hover {
+  background: var(--surface-alt);
+  color: var(--brand);
+}
+
+.adm-side-foot {
+  padding: var(--space-5);
+  border-top: 1px solid var(--border);
+}
+
+.adm-who {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-bottom: var(--space-4);
+  word-break: break-all;
+}
+
+.adm-logout {
+  width: 100%;
+  padding: var(--space-3);
+  background: var(--error-soft);
+  color: var(--error);
+  border: 1px solid color-mix(in srgb, var(--error) 20%, var(--border));
+  border-radius: var(--radius);
+  font-weight: 700;
+  font-size: 0.85rem;
+  margin-bottom: var(--space-3);
+  transition: all var(--transition);
+}
+.adm-logout:hover {
+  background: var(--error);
+  color: var(--text-inverse);
+}
+
+.adm-site-link {
+  display: block;
+  padding: var(--space-3);
+  background: var(--surface-alt);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--brand);
+  font-weight: 700;
+  font-size: 0.85rem;
+  text-align: center;
+  transition: all var(--transition);
+}
+.adm-site-link:hover {
+  background: var(--border);
+  color: var(--brand-dark);
+}
+
+.adm-main {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--space-6);
+  background: var(--bg);
+}
+
+/* ================= بطاقات الإدارة ================= */
+.adm-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  margin-bottom: var(--space-6);
+  box-shadow: var(--shadow-sm);
+}
+
+.adm-stats {
+  display: flex;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+
+.adm-stat {
+  background: var(--surface-alt);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: var(--space-4);
+  min-width: 140px;
+  text-align: center;
+}
+
+.adm-stat b {
+  display: block;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--brand);
+}
+
+.adm-stat span {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+/* ============== نماذج الإدارة ============== */
+.adm-form-wrap { margin-bottom: var(--space-6); }
+
+.adm-toolbar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+  flex-wrap: wrap;
+}
+
+.ef-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: var(--space-4);
+}
+
+.ef-full { grid-column: 1 / -1; }
+
+label { margin-bottom: var(--space-2); }
+
+/* أزرار الإجراء */
+.ef-actions {
+  display: flex;
+  gap: var(--space-3);
+  margin-top: var(--space-1);
+}
+
+.dash-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-5);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--text);
+  font-weight: 700;
+  font-size: 0.85rem;
+  transition: all var(--transition);
+}
+
+.dash-btn:hover {
+  background: var(--surface-alt);
+  border-color: var(--text-muted);
+}
+
+.dash-btn.danger {
+  border-color: color-mix(in srgb, var(--error) 25%, var(--border));
+  color: var(--error);
+}
+.dash-btn.danger:hover {
+  background: var(--error-soft);
+  border-color: var(--error);
+}
+
+/* ============== المناوبة ============== */
+.ef-days {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+.ef-day {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  background: var(--surface-alt);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
+  font-size: 0.85rem;
+  color: var(--text);
+  min-width: 200px;
+  transition: all var(--transition);
+}
+
+.ef-day:hover { border-color: var(--brand); background: var(--brand-soft); }
+
+.ef-day input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--brand);
+  flex-shrink: 0;
+}
+
+/* ============== جدول الحسابات ============== */
+.adm-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--surface-alt);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: var(--space-4);
+  margin-bottom: var(--space-3);
+  transition: all var(--transition);
+}
+
+.adm-row:hover { background: var(--border); }
+
+.di-body { flex: 1; }
+
+.di-main {
+  font-weight: 700;
+  color: var(--text);
+  font-size: 0.9rem;
+}
+
+.di-meta {
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  margin-top: var(--space-1);
+}
+
+/* ============== تنبيهات الإدارة ============== */
+.adm-hint {
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  background: var(--surface-alt);
+  padding: var(--space-3);
+  border-radius: var(--radius);
+  border: 1px dashed var(--border);
+  margin-top: var(--space-2);
+}
+
+/* ============== شريط إدارةвигация responsive ============== */
+@media (max-width: 768px) {
+  .adm-app { flex-direction: column; height: auto; }
+  .adm-side {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+    height: auto;
+  }
+  .adm-main { padding: var(--space-4); }
+  .adm-card { padding: var(--space-4); }
+  .ef-grid { grid-template-columns: 1fr; }
+  .adm-row { flex-direction: column; gap: var(--space-3); align-items: flex-start; }
+}
