@@ -4,49 +4,41 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>دليل حلفايا الطبي — جارٍ التحميل</title>
-<meta name="theme-color" content="#1E3A8A">
+<meta name="theme-color" content="#38BDF8">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
-  :root{--primary:#1E3A8A;--primary-dark:#172554;--accent:#F97316;--accent-light:#FB923C}
+  :root{--primary:#38BDF8;--primary-dark:#0284C7}
   *{margin:0;padding:0;box-sizing:border-box}
   html,body{height:100%}
   body{
     font-family:"Cairo","Tajawal",system-ui,sans-serif;
-    background:linear-gradient(145deg,var(--primary) 0%,var(--primary-dark) 100%);
+    background:linear-gradient(180deg,var(--primary) 0%,var(--primary-dark) 100%);
     color:#fff;overflow:hidden;
     display:flex;flex-direction:column;align-items:center;justify-content:space-between;
     padding:calc(28px + env(safe-area-inset-top)) 20px calc(28px + env(safe-area-inset-bottom));
     text-align:center;
   }
-  .logo-wrap{width:min(160px,42vw);aspect-ratio:1;display:flex;align-items:center;justify-content:center;margin-top:8px}
-  .logo-wrap svg{width:100%;height:100%;overflow:visible}
-  .logo-path{fill:none;stroke:#fff;stroke-width:4;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1000;stroke-dashoffset:1000;animation:draw 1.4s ease-out forwards}
-  .logo-cross{animation:draw 1.1s ease-out .25s forwards}
-  .logo-dot{animation:draw .7s ease-out .7s forwards}
-  @keyframes draw{to{stroke-dashoffset:0}}
-  .filled{animation:none}
-  .logo-shield.filled{fill:none;stroke:#fff;stroke-width:3}
-  .logo-cross.filled,.logo-dot.filled{fill:url(#g);stroke:#fff}
+  .logo-wrap{width:108px;height:108px;display:flex;align-items:center;justify-content:center;margin-top:12vh;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.22);border-radius:26px;box-shadow:0 18px 40px rgba(2,132,199,.25)}
+  .logo-wrap svg{width:68px;height:68px}
   .text-wrap{line-height:1.5;padding:0 8px}
   h1{font-size:clamp(24px,6vw,30px);font-weight:800;letter-spacing:.2px;margin-bottom:6px}
-  .subtitle{font-size:clamp(16px,4.2vw,18px);font-weight:500;color:rgba(255,255,255,.92)}
+  .subtitle{font-size:clamp(16px,4.2vw,18px);font-weight:500;color:rgba(255,255,255,.95)}
   .footer{width:100%;max-width:340px;display:flex;flex-direction:column;align-items:center;gap:10px}
-  .spinner{width:40px;height:40px;border:3px solid rgba(255,255,255,.18);border-top-color:var(--accent);border-radius:50%;animation:spin 1s linear infinite}
+  .spinner{width:32px;height:32px;border:3px solid rgba(255,255,255,.22);border-top-color:#fff;border-radius:50%;animation:spin .9s linear infinite}
   @keyframes spin{to{transform:rotate(360deg)}}
-  .dev-label{font-size:12px;color:rgba(255,255,255,.65)}
+  .dev-label{font-size:12px;color:rgba(255,255,255,.72)}
   .dev-name{font-size:16px;font-weight:700}
-  .dev-phone{font-size:15px;font-weight:800;color:var(--accent-light);letter-spacing:.4px;text-decoration:none}
+  .dev-phone{font-size:15px;font-weight:700;color:#fff;letter-spacing:.4px;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.35)}
 </style>
 </head>
 <body>
   <div class="logo-wrap" aria-hidden="true">
-    <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-      <defs><linearGradient id="g" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#3730A3"/><stop offset="100%" stop-color="#1E3A8A"/></linearGradient></defs>
-      <path class="logo-path logo-shield" d="M100 22 C145 22 180 52 180 100 L125 180 L100 198 L75 180 L20 100 C20 52 55 22 100 22 Z"/>
-      <path class="logo-path logo-cross" d="M90 72 H110 V92 H130 V108 H110 V128 H90 V108 H70 V92 H90 Z"/>
-      <circle class="logo-path logo-dot" cx="100" cy="100" r="8"/>
+    <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="6" y="6" width="52" height="52" rx="16" fill="rgba(255,255,255,.18)" stroke="rgba(255,255,255,.3)"/>
+      <path d="M32 15v34M15 32h34" stroke="#fff" stroke-width="6.5" stroke-linecap="round"/>
+      <circle cx="32" cy="32" r="7" fill="#38BDF8" stroke="#fff" stroke-width="3"/>
     </svg>
   </div>
   <div class="text-wrap">
@@ -59,8 +51,5 @@
     <div class="dev-name">قصي مهند الصالح</div>
     <a class="dev-phone" href="tel:0952639157" dir="ltr">0952639157</a>
   </div>
-  <script>
-    document.addEventListener('DOMContentLoaded',function(){ setTimeout(function(){ document.querySelectorAll('.logo-path').forEach(function(p){p.classList.add('filled')}); }, 1550); });
-  </script>
 </body>
 </html>

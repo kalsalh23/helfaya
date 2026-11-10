@@ -335,66 +335,42 @@ function viewHome() {
   const todayOncall = typeof oncallPharmacies === "function" ? oncallPharmacies(todayName, isoDateLocal(new Date())) : [];
   const legend = Object.entries(TYPES).map(([k, t]) => `<span class="legend-item"><i style="--c:${t.color}"></i>${t.plural}</span>`).join("");
 
-  // Slides for hero carousel
-  const heroSlides = [
-    {
-      badge: "دليل حلفايا الطبي",
-      title: "كل الخدمات الطبية في حلفايا — في مكان واحد",
-      subtitle: "ابحث عن طبيب، صيدلية، مشفى أو مركز صحي، واعرف المناوبة اليوم بضغطة واحدة.",
-      ctaPrimary: { label: "ابدأ البحث", href: "#/search" },
-      ctaSecondary: { label: "اسأل طبياً", href: "#/ask" },
-      image: "assets/placeholders/hero-medical.jpg",
-    },
-    {
-      badge: "صيدليات المناوبة",
-      title: "لا تبحث طويلاً — الصيدلية المناوبة هنا",
-      subtitle: "جدول أسبوعي محدث لصيدليات المناوبة في حلفايا. اتصل قبل التوجه للتأكد.",
-      ctaPrimary: { label: "عرض المناوبة", href: "#/oncall" },
-      ctaSecondary: { label: "كل الصيدليات", href: "#/pharmacies" },
-      image: "assets/placeholders/hero-pharmacy.jpg",
-    },
-    {
-      badge: "أطباء حلفايا",
-      title: "أطباء في كل التخصصات — قريبين منك",
-      subtitle: "أطفال، نساء وتوليد، عظام، جلدية، جراحة، قلب، باطنة، والمزيد. مع أرقام مباشرة.",
-      ctaPrimary: { label: "تصفح الأطباء", href: "#/doctors" },
-      ctaSecondary: { label: "المميزون", href: "#/featured" },
-      image: "assets/placeholders/hero-doctors.jpg",
-    },
+  const shortcuts = [
+    { href: "#/doctors", icon: "stetho", label: "الأطباء", desc: "التخصصات والأرقام" },
+    { href: "#/pharmacies", icon: "pill", label: "الصيدليات", desc: "مواقع وأوقات الدوام" },
+    { href: "#/hospitals", icon: "hospital", label: "المشافي", desc: "خدمات الطوارئ" },
+    { href: "#/labs", icon: "flask", label: "المخابر", desc: "تحاليل طبية" },
+    { href: "#/health-centers", icon: "shieldPlus", label: "المراكز الصحية", desc: "رعاية وخدمات" },
+    { href: "#/oncall", icon: "ambulance", label: "المناوبة", desc: "صيدليات اليوم" },
   ];
 
   return `
-  <section class="hero-carousel" id="heroCarousel" aria-label="أبرز خدمات الدليل">
-    <div class="hero-carousel__track">
-      ${heroSlides.map((slide, i) => `
-      <div class="hero-carousel__slide" data-index="${i}" role="group" aria-roledescription="slide" aria-label="شريحة ${i + 1} من ${heroSlides.length}">
-        <div class="hero-carousel__bg" style="background-image: url('${slide.image}')" aria-hidden="true"></div>
-        <div class="hero-carousel__content">
-          <span class="hero-carousel__badge">${icon("shield")} ${slide.badge}</span>
-          <h1 class="hero-carousel__title">${slide.title}</h1>
-          <p class="hero-carousel__subtitle">${slide.subtitle}</p>
-          <div class="hero-carousel__actions">
-            <a class="btn-hero btn-hero--primary" href="${slide.ctaPrimary.href}">${icon("search")} ${slide.ctaPrimary.label}</a>
-            <a class="btn-hero btn-hero--outline" href="${slide.ctaSecondary.href}">${icon("chat")} ${slide.ctaSecondary.label}</a>
-          </div>
+  <section class="home-intro">
+    <div class="container">
+      <div class="home-intro__card">
+        <span class="home-intro__badge">${icon("shield")} دليل حلفايا الطبي</span>
+        <h1 class="home-intro__title">الخدمات الطبية في حلفايا بسهولة ووضوح</h1>
+        <p class="home-intro__subtitle">ابحث عن الطبيب أو الصيدلية أو المشفى، واعرف المناوبة والخدمات المتاحة بسرعة.</p>
+        <div class="home-intro__actions">
+          <a class="btn btn--primary btn--lg" href="#/search">${icon("search")} ابحث في الدليل</a>
+          <a class="btn btn--outline btn--lg" href="#/ask">${icon("chat")} اسأل طبياً</a>
         </div>
       </div>
-      `).join("")}
     </div>
-    <div class="hero-carousel__dots" id="heroCarouselDots" role="tablist" aria-label="اختر الشريحة"></div>
-    <button class="hero-carousel__arrow hero-carousel__arrow--prev" type="button" aria-label="الشريحة السابقة" id="heroCarouselPrev">${icon("chevLeft")}</button>
-    <button class="hero-carousel__arrow hero-carousel__arrow--next" type="button" aria-label="الشريحة التالية" id="heroCarouselNext">${icon("chevRight")}</button>
   </section>
 
   <section class="container">
-    <div class="quick-nav" style="margin-top: var(--space-4)">
-      <h3 class="quick-nav-title">${icon("sparkles")} اختصارات سريعة</h3>
-      <div class="quick-nav-row">
-        <a class="hero-chip" href="#/doctors">${icon("stetho")} الأطباء</a>
-        <a class="hero-chip" href="#/pharmacies">${icon("pill")} الصيدليات</a>
-        <a class="hero-chip" href="#/hospitals">${icon("hospital")} المشافي</a>
-        <a class="hero-chip" href="#/health-centers">${icon("shieldPlus")} المراكز الصحية</a>
-        <a class="hero-chip badge--secondary" href="#/oncall">${icon("ambulance")} المناوبة</a>
+    <div class="quick-nav" aria-label="اختصارات سريعة">
+      <h2 class="quick-nav-title">اختصارات سريعة</h2>
+      <div class="quick-nav-grid">
+        ${shortcuts.map((s) => `
+        <a class="quick-card" href="${s.href}">
+          <span class="quick-card__icon" aria-hidden="true">${icon(s.icon)}</span>
+          <span class="quick-card__text">
+            <span class="quick-card__label">${s.label}</span>
+            <span class="quick-card__desc">${s.desc}</span>
+          </span>
+        </a>`).join("")}
       </div>
     </div>
   </section>
@@ -453,11 +429,6 @@ function viewHome() {
   </section>`;
 }
 function afterHome() {
-  /* Hero Carousel */
-  bindHeroCarousel();
-
-  /* اقتراحات البحث في الهيرو - لم يعد مستخدماً مع التصميم الجديد */
-
   mountMap("homeMap", ENTITIES);
   if (typeof bindFeaturedDoctorsCarousel === "function") bindFeaturedDoctorsCarousel();
 
@@ -791,7 +762,6 @@ function viewEntity(id) {
         <a href="#/">الرئيسية</a> ${icon("chevLeft")} <a href="#/${routeSlug(e.type)}">${t.plural}</a> ${icon("chevLeft")} <span>${esc(e.name)}</span>
       </nav>
       <div class="detail-card" style="--tc:${t.color}">
-        <div class="detail-banner" style="background-image:url('${esc(placeholderFor(e))}')"></div>
         <div class="detail-main">
           <div class="detail-avatar">
             <img src="${esc(placeholderFor(e))}" alt="${esc(e.name)}" />
