@@ -1,24 +1,18 @@
 /* ============================================================
    دليل حلفايا الطبي — نظام تصميم يطابق دليل صوران (dalilshoran)
-   الهوية البصرية: تيل/تييل (#0D9488) + كoral (#F97316) — خط IBM Plex Sans Arabic
+   الهوية البصرية: تيل/تييل (#0E6F78) + ذهبي (#F59E0B) — خط IBM Plex Sans Arabic
    ============================================================ */
 
 /* ================= متغيرات التصميم (نسخة dalilshoran بألوان حلفايا) ================= */
 :root {
-  /* الألوان الأساسية - مطابقة لهيكل dalilshoran لكن بألوان حلفايا */
-  --primary: #0D9488;
-  --primary-dark: #0F766E;
-  --primary-darker: #0B5E66;
-  --primary-soft: #CCFBF1;
-  --primary-alpha: rgba(13, 148, 136, 0.12);
+  /* الألوان الأساسية - مطابقة تماماً لـ dalilshoran */
+  --primary: #0E6F78;
+  --primary-dark: #0B5E66;
+  --primary-darker: #094B52;
+  --primary-soft: #E6F4F1;
+  --primary-alpha: rgba(14, 111, 120, 0.12);
 
-  /* اللون المميز (coral) - يحل محل gold في dalilshoran */
-  --accent: #F97316;
-  --accent-dark: #EA580C;
-  --accent-soft: #FFEDD5;
-  --accent-alpha: rgba(249, 115, 22, 0.12);
-
-  /* الذهب (للشارة مميز) */
+  /* الذهب (للشارة مميز) - مطابق لـ dalilshoran */
   --gold: #F59E0B;
   --gold-dark: #B45309;
   --gold-soft: #FEF3C7;
@@ -97,12 +91,9 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --primary: #14B8A6;
-    --primary-dark: #0D9488;
-    --primary-darker: #0F766E;
+    --primary-dark: #0B5E66;
+    --primary-darker: #094B52;
     --primary-soft: rgba(20, 184, 166, 0.18);
-    --accent: #FB923C;
-    --accent-dark: #F97316;
-    --accent-soft: rgba(251, 146, 60, 0.18);
     --gold: #FBBF24;
     --gold-dark: #F59E0B;
     --gold-soft: rgba(251, 191, 36, 0.18);
@@ -203,7 +194,7 @@ button { cursor: pointer; border: 0; background: none; }
   font-size: 11px; font-weight: 700; white-space: nowrap;
 }
 .badge--primary { background: var(--primary-soft); color: var(--primary-dark); border: 1px solid color-mix(in srgb, var(--primary) 30%, transparent); }
-.badge--secondary { background: var(--accent-soft); color: var(--accent-dark); border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent); }
+.badge--secondary { background: var(--gold-soft); color: var(--gold-dark); border: 1px solid color-mix(in srgb, var(--gold) 30%, transparent); }
 .badge--gold { background: var(--gold-soft); color: var(--gold-dark); }
 
 /* Chips */
@@ -641,8 +632,8 @@ button { cursor: pointer; border: 0; background: none; }
 .oc-badge {
   display: inline-flex; align-items: center; gap: 4px;
   margin-inline-start: auto;
-  background: linear-gradient(135deg, var(--accent-soft), #FFE8D0);
-  color: var(--accent-dark);
+  background: linear-gradient(135deg, var(--gold-soft), #FDE8D6);
+  color: var(--gold-dark);
   padding: 3px 10px; border-radius: var(--r-full);
   font-size: 11px; font-weight: 700; flex: none;
 }
