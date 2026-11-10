@@ -1748,7 +1748,7 @@ function showBootError(err) {
   if (!view) return;
   var msg = (err && (err.stack || err.message)) ? String(err.stack || err.message) : String(err || "Unknown error");
   var safe = msg.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
-  view.innerHTML = '<section class="container" style="padding:24px 0 40px"><div class="empty-state" style="display:block;text-align:right"><h2 style="margin:0 0 8px">حدث خطأ أثناء تحميل الصفحة</h2><p style="margin:0 0 10px;color:#666">حدّث الصفحة (Ctrl+F5). إذا استمر الخطأ أرسِل هذه التفاصيل:</p><pre dir="ltr" style="text-align:left;white-space:pre-wrap;word-break:break-word;margin:0;font-size:12px;line-height:1.45;background:#f8f9fa;border:1px solid #e5e7eb;border-radius:10px;padding:12px;max-height:45vh;overflow:auto">' + safe + '</pre></div></section>';
+  view.innerHTML = '<section class="container" style="padding:24px 0 40px"><div class="empty-state" style="display:block;text-align:right"><h2 style="margin:0 0 8px">حدث خطأ أثناء تحميل الصفحة</h2><p style="margin:0 0 10px;color:#263238">حدّث الصفحة (Ctrl+F5). إذا استمر الخطأ أرسِل هذه التفاصيل:</p><pre dir="ltr" style="text-align:left;white-space:pre-wrap;word-break:break-word;margin:0;font-size:12px;line-height:1.45;background:#F5F7F7;border:1px solid #E3F4F1;border-radius:10px;padding:12px;max-height:45vh;overflow:auto">' + safe + '</pre></div></section>';
 }
 window.addEventListener("error", function(e){ try{ showBootError(e && (e.error || e.message)); }catch(_){} });
 window.addEventListener("unhandledrejection", function(e){ try{ showBootError(e && e.reason); }catch(_){} });
@@ -1822,3 +1822,4 @@ function initHeaderScroll() {
     render();
     } catch (err) { showBootError(err); }
 })();
+
