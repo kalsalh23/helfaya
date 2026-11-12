@@ -836,6 +836,10 @@ button { cursor: pointer; border: 0; background: none; }
   background: var(--primary-soft); color: var(--primary-darker);
   font-size: 13px; line-height: 1.7;
 }
+[data-theme="dark"] .medical-note {
+  background: var(--primary-soft);
+  color: #FFFFFF;
+}
 .medical-note .ic { width: 16px; height: 16px; flex: none; margin-top: 2px; }
 
 /* ============================================================
@@ -1314,6 +1318,10 @@ button { cursor: pointer; border: 0; background: none; }
 
 /* Medical disclaimer note */
 .medical-note { display: flex; align-items: flex-start; gap: 8px; padding: var(--space-3) var(--space-4); border-radius: var(--r-md); background: var(--primary-soft); color: var(--primary-darker); font-size: 13px; line-height: 1.7; }
+[data-theme="dark"] .medical-note {
+  background: var(--primary-soft);
+  color: #FFFFFF;
+}
 .medical-note .ic { width: 16px; height: 16px; flex: none; margin-top: 2px; }
 
 /* Search results */
