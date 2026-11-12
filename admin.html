@@ -22,10 +22,18 @@
         <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg>
       </span>
       <h1>لوحة إدارة دليل حلفايا</h1>
-      <p>هذه اللوحة خاصة بمدير النظام — دخول بحساب الإدارة فقط</p>
-      <form id="admLoginForm" novalidate>
-        <input id="admUser" type="text" dir="ltr" placeholder="بريد المدير" autocomplete="username" />
-        <input id="admPass" type="password" dir="ltr" placeholder="كلمة السر" autocomplete="current-password" />
+      <p class="adm-login-subtitle">هذه اللوحة خاصة بمدير النظام — دخول بحساب الإدارة فقط</p>
+      
+      <div class="adm-login-credentials">
+        <p>بيانات الدخول الافتراضية:</p>
+        <code>helfaya@gmail.com</code>
+        <code style="margin-top: 6px;">helfaya@2026</code>
+        <p style="margin-top: 8px; font-size: 0.75rem; opacity: 0.7;">⚠ يجب إنشاء الحساب في Supabase Auth Dashboard أولاً</p>
+      </div>
+      
+      <form id="admLoginForm" class="adm-login-form" novalidate>
+        <input id="admUser" type="email" dir="ltr" placeholder="بريد المدير" autocomplete="username" value="helfaya@gmail.com" />
+        <input id="admPass" type="password" dir="ltr" placeholder="كلمة السر" autocomplete="current-password" value="helfaya@2026" />
         <p class="adm-login-err" id="admLoginErr" hidden>بيانات الدخول غير صحيحة أو الحساب ليس مديراً</p>
         <button class="btn btn-primary btn-block" type="submit">دخول اللوحة</button>
       </form>

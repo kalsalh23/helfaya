@@ -1,16 +1,20 @@
 /* ============================================================
-   دليل حلفايا الطبي — لوحة الإدارة (CSS مخصص)
-   هوية بصرية موحّدة مع css/style.css
+   دليل حلفايا الطبي — لوحة الإدارة
+   يستخدم متغيرات design system من style.css
    ============================================================ */
 
-.adm-body { background: var(--bg); min-height: 100vh; }
+.adm-body { 
+  background: var(--bg); 
+  min-height: 100vh; 
+  font-family: var(--font-sans);
+}
 
 /* ================= شاشة الدخول ================= */
 .adm-login {
   position: fixed;
   inset: 0;
-  background: linear-gradient(135deg, var(--brand), var(--brand-dark));
-  z-index: var(--z-modal);
+  background: linear-gradient(135deg, #079F98 0%, #068E88 100%);
+  z-index: 9999;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -20,74 +24,143 @@
 .adm-login-card {
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  padding: var(--space-10);
+  border-radius: var(--r-xl);
+  padding: var(--space-8);
   width: 100%;
   max-width: 420px;
-  box-shadow: var(--shadow-xl);
+  box-shadow: var(--shadow-pop);
   text-align: center;
 }
 
 .adm-login-ic {
-  width: 56px;
-  height: 56px;
-  border-radius: var(--radius-lg);
-  background: var(--brand-soft);
-  color: var(--brand-dark);
+  width: 64px;
+  height: 64px;
+  border-radius: var(--r-lg);
+  background: var(--primary-soft);
+  color: var(--primary);
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: var(--space-6);
-  box-shadow: var(--shadow);
+  margin-bottom: var(--space-5);
+  box-shadow: var(--shadow-card);
 }
 
-.adm-login-ic .ic { width: 28px; height: 28px; }
+.adm-login-ic .ic { width: 30px; height: 30px; }
 
 .adm-login h1 {
-  font-size: 1.5rem;
+  font-size: 1.6rem;
   font-weight: 800;
-  color: var(--text);
+  color: var(--ink);
   margin-bottom: var(--space-2);
 }
 
-.adm-login p {
-  color: var(--text-soft);
-  font-size: 0.9rem;
+.adm-login .adm-login-subtitle {
+  color: var(--muted);
+  font-size: 0.95rem;
   margin-bottom: var(--space-6);
   line-height: 1.6;
+}
+
+.adm-login-credentials {
+  background: var(--primary-soft);
+  border: 1px solid var(--primary-alpha);
+  border-radius: var(--r-md);
+  padding: var(--space-4);
+  margin-bottom: var(--space-5);
+  text-align: right;
+  direction: rtl;
+}
+
+.adm-login-credentials p {
+  margin: 0 0 var(--space-2);
+  font-size: 0.85rem;
+  color: var(--primary-dark);
+  font-weight: 700;
+}
+
+.adm-login-credentials code {
+  display: block;
+  background: rgba(255,255,255,0.5);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--r-sm);
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--ink);
+  word-break: break-all;
+}
+
+.adm-login-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.adm-login-form input {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1.5px solid var(--border-strong);
+  border-radius: var(--r-md);
+  font-size: 14px;
+  font-family: var(--font-sans);
+  background: var(--surface);
+  color: var(--ink);
+  outline: none;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  text-align: right;
+}
+
+.adm-login-form input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-alpha);
+}
+
+.adm-login-form input::placeholder {
+  color: var(--muted-strong);
+}
+
+.adm-login-form .btn {
+  width: 100%;
+  padding: 12px 20px;
+  font-size: 14px;
+  font-weight: 700;
+  margin-top: var(--space-2);
 }
 
 .adm-login-err {
   color: var(--error);
   font-size: 0.85rem;
-  margin-bottom: var(--space-4);
+  margin-bottom: var(--space-3);
   background: var(--error-soft);
   padding: var(--space-3);
-  border-radius: var(--radius);
-  border: 1px solid color-mix(in srgb, var(--error) 20%, var(--border));
+  border-radius: var(--r-md);
+  border: 1px solid color-mix(in srgb, var(--error) 30%, var(--border));
 }
 
 .adm-back {
   display: inline-block;
-  margin-top: var(--space-6);
-  color: var(--text-muted);
+  margin-top: var(--space-5);
+  color: var(--muted);
   font-size: 0.85rem;
   font-weight: 600;
-  transition: color var(--transition);
+  transition: color var(--transition-fast);
 }
-.adm-back:hover { color: var(--brand); }
+.adm-back:hover { color: var(--primary); }
 
 /* ================= واجهة التطبيق ================= */
-.adm-app { display: flex; height: 100vh; overflow: hidden; }
+.adm-app { 
+  display: flex; 
+  height: 100vh; 
+  overflow: hidden; 
+}
 
 .adm-side {
-  width: 260px;
+  width: 280px;
   background: var(--surface);
-  border-right: 1px solid var(--border);
+  border-left: 1px solid var(--border);
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
-  z-index: var(--z-nav);
+  z-index: 100;
 }
 
 .adm-brand {
@@ -97,39 +170,49 @@
 
 .adm-brand strong {
   display: block;
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   font-weight: 800;
-  color: var(--text);
+  color: var(--primary-dark);
+  letter-spacing: -0.01em;
 }
 .adm-brand small {
   display: block;
   font-size: 0.8rem;
-  color: var(--text-muted);
+  color: var(--muted);
   margin-top: var(--space-1);
 }
 
 .adm-nav {
   flex: 1;
   overflow-y: auto;
-  padding: var(--space-4) 0;
+  padding: var(--space-4) var(--space-3);
 }
 
 .adm-nav button {
   width: 100%;
   text-align: right;
-  padding: var(--space-3) var(--space-5);
-  font-size: 0.9rem;
+  padding: var(--space-3) var(--space-4);
+  font-size: 14px;
   font-weight: 600;
-  color: var(--text-soft);
-  border-radius: var(--radius);
-  margin: var(--space-1) var(--space-4);
-  transition: all var(--transition);
+  color: var(--muted);
+  border-radius: var(--r-md);
+  margin-bottom: var(--space-1);
+  transition: all var(--transition-fast);
   white-space: nowrap;
+  background: transparent;
+  border: 1px solid transparent;
 }
 
 .adm-nav button:hover {
-  background: var(--surface-alt);
-  color: var(--brand);
+  background: var(--primary-soft);
+  color: var(--primary-dark);
+  border-color: var(--primary-alpha);
+}
+
+.adm-nav button.active {
+  background: var(--primary);
+  color: #FFFFFF;
+  border-color: var(--primary);
 }
 
 .adm-side-foot {
@@ -139,9 +222,14 @@
 
 .adm-who {
   font-size: 0.8rem;
-  color: var(--text-muted);
+  color: var(--muted);
   margin-bottom: var(--space-4);
   word-break: break-all;
+  padding: var(--space-2) var(--space-3);
+  background: var(--subtle);
+  border-radius: var(--r-sm);
+  direction: ltr;
+  text-align: left;
 }
 
 .adm-logout {
@@ -149,39 +237,40 @@
   padding: var(--space-3);
   background: var(--error-soft);
   color: var(--error);
-  border: 1px solid color-mix(in srgb, var(--error) 20%, var(--border));
-  border-radius: var(--radius);
+  border: 1px solid color-mix(in srgb, var(--error) 30%, var(--border));
+  border-radius: var(--r-md);
   font-weight: 700;
-  font-size: 0.85rem;
+  font-size: 13.5px;
   margin-bottom: var(--space-3);
-  transition: all var(--transition);
+  transition: all var(--transition-fast);
 }
 .adm-logout:hover {
   background: var(--error);
-  color: var(--text-inverse);
+  color: #FFFFFF;
 }
 
 .adm-site-link {
   display: block;
   padding: var(--space-3);
-  background: var(--surface-alt);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  color: var(--brand);
+  background: var(--primary-soft);
+  border: 1px solid var(--primary-alpha);
+  border-radius: var(--r-md);
+  color: var(--primary-dark);
   font-weight: 700;
-  font-size: 0.85rem;
+  font-size: 13.5px;
   text-align: center;
-  transition: all var(--transition);
+  transition: all var(--transition-fast);
 }
 .adm-site-link:hover {
-  background: var(--border);
-  color: var(--brand-dark);
+  background: var(--primary);
+  color: #FFFFFF;
+  border-color: var(--primary);
 }
 
 .adm-main {
   flex: 1;
   overflow-y: auto;
-  padding: var(--space-6);
+  padding: var(--space-8);
   background: var(--bg);
 }
 
@@ -189,10 +278,32 @@
 .adm-card {
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
+  border-radius: var(--r-xl);
   padding: var(--space-6);
   margin-bottom: var(--space-6);
-  box-shadow: var(--shadow-sm);
+  box-shadow: var(--shadow-card);
+}
+
+.adm-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+  margin-bottom: var(--space-5);
+}
+
+.adm-head h1 {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--ink);
+  margin: 0;
+}
+
+.adm-head p {
+  margin: var(--space-1) 0 0;
+  color: var(--muted);
+  font-size: 14px;
 }
 
 .adm-stats {
@@ -202,24 +313,27 @@
 }
 
 .adm-stat {
-  background: var(--surface-alt);
+  background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: var(--space-4);
+  border-radius: var(--r-lg);
+  padding: var(--space-5);
   min-width: 140px;
   text-align: center;
+  box-shadow: var(--shadow-sm);
+  flex: 1;
 }
 
 .adm-stat b {
   display: block;
-  font-size: 1.5rem;
+  font-size: 2rem;
   font-weight: 800;
-  color: var(--brand);
+  color: var(--primary-dark);
+  line-height: 1.2;
 }
 
 .adm-stat span {
-  font-size: 0.8rem;
-  color: var(--text-muted);
+  font-size: 12.5px;
+  color: var(--muted);
   font-weight: 600;
 }
 
@@ -236,42 +350,103 @@
 
 .ef-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: var(--space-4);
 }
 
 .ef-full { grid-column: 1 / -1; }
 
-label { margin-bottom: var(--space-2); }
+label {
+  display: block;
+  margin-bottom: var(--space-2);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--muted);
+}
+
+label input,
+label select,
+label textarea {
+  width: 100%;
+  margin-top: var(--space-1);
+  padding: 10px 12px;
+  border: 1.5px solid var(--border-strong);
+  border-radius: var(--r-md);
+  font-family: var(--font-sans);
+  font-size: 13.5px;
+  background: var(--surface);
+  color: var(--ink);
+  outline: none;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+label input:focus,
+label select:focus,
+label textarea:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-alpha);
+}
+
+label input::placeholder,
+label textarea::placeholder {
+  color: var(--muted-strong);
+}
+
+.ef-check,
+.ef-checks label {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-weight: 600;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.ef-checks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  align-items: center;
+}
+
+.ef-checks input {
+  width: auto;
+  margin: 0;
+  accent-color: var(--primary);
+}
 
 /* أزرار الإجراء */
 .ef-actions {
   display: flex;
   gap: var(--space-3);
-  margin-top: var(--space-1);
+  margin-top: var(--space-4);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--border);
 }
 
 .dash-btn {
   display: inline-flex;
   align-items: center;
   gap: var(--space-2);
-  padding: var(--space-3) var(--space-5);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
+  padding: 10px 16px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--r-md);
   background: var(--surface);
-  color: var(--text);
+  color: var(--ink);
   font-weight: 700;
-  font-size: 0.85rem;
-  transition: all var(--transition);
+  font-size: 13px;
+  transition: all var(--transition-fast);
+  cursor: pointer;
 }
 
 .dash-btn:hover {
-  background: var(--surface-alt);
-  border-color: var(--text-muted);
+  background: var(--primary-soft);
+  border-color: var(--primary);
+  color: var(--primary-dark);
 }
 
 .dash-btn.danger {
-  border-color: color-mix(in srgb, var(--error) 25%, var(--border));
+  border-color: color-mix(in srgb, var(--error) 30%, var(--border));
   color: var(--error);
 }
 .dash-btn.danger:hover {
@@ -279,87 +454,241 @@ label { margin-bottom: var(--space-2); }
   border-color: var(--error);
 }
 
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  border-radius: var(--r-md);
+  padding: 10px 18px;
+  font-size: 13.5px;
+  font-weight: 700;
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.btn .ic { width: 17px; height: 17px; flex-shrink: 0; }
+
+.btn--primary { background: var(--primary); color: #FFFFFF; border: 1px solid var(--primary); }
+.btn--primary:hover { background: var(--primary-dark); border-color: var(--primary-dark); }
+
+.btn--outline { background: var(--surface); color: var(--ink); border: 1.5px solid var(--primary); }
+.btn--outline:hover { background: var(--primary-soft); border-color: var(--primary); }
+
+.btn--ghost { background: transparent; color: var(--ink); border: 1px solid var(--border); }
+.btn--ghost:hover { background: var(--subtle); }
+
+.btn--sm { padding: 8px 14px; font-size: 12.5px; }
+.btn--block { width: 100%; }
+
 /* ============== المناوبة ============== */
 .ef-days {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-3);
+  gap: var(--space-2);
 }
 
 .ef-day {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: var(--space-2);
   padding: var(--space-2) var(--space-4);
-  background: var(--surface-alt);
+  background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: var(--radius-full);
-  font-size: 0.85rem;
-  color: var(--text);
-  min-width: 200px;
-  transition: all var(--transition);
+  border-radius: var(--r-full);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+  transition: all var(--transition-fast);
+  cursor: pointer;
 }
 
-.ef-day:hover { border-color: var(--brand); background: var(--brand-soft); }
+.ef-day:hover { border-color: var(--primary); background: var(--primary-soft); color: var(--primary-dark); }
 
 .ef-day input[type="checkbox"] {
-  width: 18px;
-  height: 18px;
-  accent-color: var(--brand);
+  width: 16px;
+  height: 16px;
+  accent-color: var(--primary);
   flex-shrink: 0;
 }
 
-/* ============== جدول الحسابات ============== */
+/* ============== جدول الصفوف ============== */
 .adm-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: var(--surface-alt);
+  gap: var(--space-4);
+  background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: var(--radius);
+  border-radius: var(--r-lg);
   padding: var(--space-4);
   margin-bottom: var(--space-3);
-  transition: all var(--transition);
+  transition: all var(--transition-fast);
+  flex-wrap: wrap;
 }
 
-.adm-row:hover { background: var(--border); }
+.adm-row:hover { 
+  border-color: var(--primary);
+  box-shadow: var(--shadow-card);
+}
 
-.di-body { flex: 1; }
+.di-body { flex: 1; min-width: 200px; }
 
 .di-main {
   font-weight: 700;
-  color: var(--text);
-  font-size: 0.9rem;
+  color: var(--ink);
+  font-size: 14.5px;
+  margin-bottom: var(--space-1);
 }
 
 .di-meta {
-  color: var(--text-muted);
-  font-size: 0.8rem;
-  margin-top: var(--space-1);
+  color: var(--muted);
+  font-size: 12.5px;
+  line-height: 1.5;
 }
 
-/* ============== تنبيهات الإدارة ============== */
+.di-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-inline-start: auto;
+}
+
+/* ============== شارة ============== */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  border-radius: var(--r-full);
+  padding: 3px 10px;
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.badge-amber { background: #FEF3C7; color: #92400E; border: 1px solid #FCD34D; }
+.badge-rose { background: #FFE4E6; color: #9F1239; border: 1px solid #FDA4AF; }
+.badge-blue { background: var(--primary-soft); color: var(--primary-dark); border: 1px solid var(--primary-alpha); }
+
+/* ============== رفع الصور ============== */
+.adm-upload {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  align-items: flex-start;
+}
+
+.adm-img-prev {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: var(--r-md);
+  border: 1px solid var(--border);
+}
+
 .adm-hint {
-  color: var(--text-muted);
-  font-size: 0.8rem;
-  background: var(--surface-alt);
+  color: var(--muted);
+  font-size: 12px;
+  background: var(--subtle);
   padding: var(--space-3);
-  border-radius: var(--radius);
+  border-radius: var(--r-md);
   border: 1px dashed var(--border);
   margin-top: var(--space-2);
+  line-height: 1.6;
 }
 
-/* ============== شريط إدارةвигация responsive ============== */
-@media (max-width: 768px) {
+/* ============== البحث في الشريط ============== */
+.adm-search {
+  position: relative;
+  flex: 1;
+  min-width: 200px;
+  max-width: 360px;
+}
+
+.adm-search .ic {
+  position: absolute;
+  inset-inline-start: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 18px;
+  height: 18px;
+  color: var(--muted);
+  pointer-events: none;
+}
+
+.adm-search input {
+  width: 100%;
+  padding-inline-start: 42px;
+  height: 42px;
+  font-size: 14px;
+}
+
+/* ============== حالة فارغة ============== */
+.adm-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--space-3);
+  padding: var(--space-8) var(--space-4);
+  color: var(--muted);
+}
+.adm-empty .ic { width: 48px; height: 48px; color: var(--muted-strong); }
+.adm-empty h3 { margin: 0; font-size: 16.5px; color: var(--ink); }
+.adm-empty p { margin: 0; font-size: 13.5px; }
+
+/* ============== Toast ============== */
+.toast {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--r-lg);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-pop);
+  animation: toastSlide var(--transition-bounce);
+}
+.toast .ic { width: 20px; height: 20px; flex-shrink: 0; }
+.toast.ok .ic { color: var(--success); }
+.toast.err .ic { color: var(--error); }
+.toast .ic { color: var(--primary); }
+
+@keyframes toastSlide {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* ============== Responsive ============== */
+@media (max-width: 960px) {
   .adm-app { flex-direction: column; height: auto; }
   .adm-side {
     width: 100%;
-    border-right: none;
+    border-left: none;
     border-bottom: 1px solid var(--border);
     height: auto;
   }
-  .adm-main { padding: var(--space-4); }
-  .adm-card { padding: var(--space-4); }
+  .adm-nav { padding: var(--space-4); display: flex; flex-wrap: wrap; gap: var(--space-2); }
+  .adm-nav button { 
+    width: auto; 
+    flex: 1 1 calc(50% - var(--space-2)); 
+    min-width: 140px;
+    text-align: center;
+    margin: 0;
+  }
+  .adm-main { padding: var(--space-5); }
+  .adm-card { padding: var(--space-5); }
   .ef-grid { grid-template-columns: 1fr; }
   .adm-row { flex-direction: column; gap: var(--space-3); align-items: flex-start; }
+  .di-actions { width: 100%; justify-content: flex-end; }
+  .adm-head { flex-direction: column; align-items: flex-start; }
+}
+
+@media (max-width: 480px) {
+  .adm-login-card { padding: var(--space-6); margin: var(--space-4); }
+  .adm-nav button { flex: 1 1 100%; }
+  .adm-stats { flex-direction: column; }
+  .adm-stat { min-width: 0; }
+  .ef-actions { flex-direction: column; }
+  .dash-btn { width: 100%; justify-content: center; }
 }
