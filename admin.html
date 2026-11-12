@@ -34,9 +34,25 @@
       <form id="admLoginForm" class="adm-login-form" novalidate>
         <input id="admUser" type="email" dir="ltr" placeholder="بريد المدير" autocomplete="username" value="helfaya@gmail.com" />
         <input id="admPass" type="password" dir="ltr" placeholder="كلمة السر" autocomplete="current-password" value="helfaya@2026" />
-        <p class="adm-login-err" id="admLoginErr" hidden>بيانات الدخول غير صحيحة أو الحساب ليس مديراً</p>
+        <p class="adm-login-err" id="admLoginErr" hidden></p>
         <button class="btn btn-primary btn-block" type="submit">دخول اللوحة</button>
       </form>
+      
+      <div class="adm-login-help">
+        <button type="button" class="btn btn-ghost btn-sm btn-block" id="testConn">اختبار الاتصال بـ Supabase</button>
+        <details style="margin-top: 12px; text-align: right; font-size: 0.8rem; color: var(--muted);">
+          <summary style="cursor: pointer; font-weight: 600;">خطوات إنشاء حساب المدير</summary>
+          <ol style="margin: 8px 0; padding-inline-start: 20px; line-height: 2;">
+            <li>اذهب إلى <a href="https://supabase.com/dashboard/project/jsbjhspnukuusmordein/auth/users" target="_blank">Supabase Dashboard → Authentication → Users</a></li>
+            <li>اضغط <strong>Add User</strong> → Create new user</li>
+            <li>Email: <code>helfaya@gmail.com</code> | Password: <code>helfaya@2026</code></li>
+            <li>User Metadata (JSON): <code>{"role": "admin"}</code></li>
+            <li>✓ <strong>Auto Confirm User</strong> (أو Email Confirm)</li>
+            <li>Save → ثم جرب الدخول هنا</li>
+          </ol>
+        </details>
+      </div>
+      
       <a class="adm-back" href="/">← العودة إلى الموقع</a>
     </div>
   </div>

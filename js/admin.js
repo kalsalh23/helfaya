@@ -137,14 +137,42 @@ async function bindLogin() {
     ev.preventDefault();
     const email = $("#admUser").value.trim(), pass = $("#admPass").value, err = $("#admLoginErr"); err.hidden = true;
     if (!email || !pass) return;
+    const btn = $("#admLoginForm button[type=submit]");
+    const origText = btn.textContent;
+    btn.disabled = true; btn.textContent = "جارٍ التحقق…";
     try {
-      const r = await fetch(window.SUPABASE_CONFIG.url + "/auth/v1/token?grant_type=password", { method: "POST", headers: { apikey: window.SUPABASE_CONFIG.anonKey, "Content-Type": "application/json" }, body: JSON.stringify({ email, password: pass }) });
-      if (!r.ok) { err.hidden = false; return; }
-      const d = await r.json(); const role = (d.user && d.user.user_metadata && d.user.user_metadata.role) || "";
-      if (role !== "admin") { err.hidden = false; return; }
-      setSession({ access_token: d.access_token, refresh_token: d.refresh_token, email: (d.user && d.user.email) || email, role: "admin" });
+      const r = await fetch(window.SUPABASE_CONFIG.url + "/auth/v1/token?grant_type=password", { 
+        method: "POST", 
+        headers: { apikey: window.SUPABASE_CONFIG.anonKey, "Content-Type": "application/json" }, 
+        body: JSON.stringify({ email, password: pass }) 
+      });
+      const data = await r.json();
+      if (!r.ok) { 
+        err.textContent = data.msg || data.message || data.error_description || "بيانات الدخول غير صحيحة";
+        err.hidden = false; 
+        btn.disabled = false; btn.textContent = origText;
+        return; 
+      }
+      const role = (data.user && data.user.user_metadata && data.user.user_metadata.role) || "";
+      if (role !== "admin") { 
+        err.textContent = "الحساب موجود لكن ليس بصلاحية مدير (role=admin)";
+        err.hidden = false; 
+        btn.disabled = false; btn.textContent = origText;
+        return; 
+      }
+      if (data.user && !data.user.email_confirmed_at) {
+        err.textContent = "البريد الإلكتروني غير مؤكد — فعّل الحساب من Supabase Dashboard";
+        err.hidden = false; 
+        btn.disabled = false; btn.textContent = origText;
+        return;
+      }
+      setSession({ access_token: data.access_token, refresh_token: data.refresh_token, email: (data.user && data.user.email) || email, role: "admin" });
       showToast("مرحباً بمدير النظام", "ok"); showApp();
-    } catch (_) { err.hidden = false; }
+    } catch (e) { 
+      err.textContent = "خطأ في الاتصال: " + (e.message || "غير معروف");
+      err.hidden = false; 
+      btn.disabled = false; btn.textContent = origText;
+    }
   });
   $("#admLogout").addEventListener("click", () => logout());
   $$("#admNav button").forEach((b) => b.addEventListener("click", () => { state.tab = b.dataset.tab; state.search = ""; $$("#admNav button").forEach((x) => x.classList.toggle("active", x === b)); renderTab(); }));
@@ -422,4 +450,29 @@ async function renderSettings(main) {
   $("#siteSettings").onsubmit = async (ev) => { ev.preventDefault(); let social = {}; try { social = JSON.parse($("#stSocial").value || "{}"); } catch (_) { return showToast("JSON الروابط غير صالح", "err"); } const value = { ...site, name: $("#stName").value.trim(), city: $("#stCity").value.trim(), region: $("#stRegion").value.trim(), tagline: $("#stTag").value.trim(), description: $("#stDesc").value.trim(), infoPhone: $("#stPhone").value.trim(), email: $("#stEmail").value.trim(), developer: { ...(site.developer || {}), name: $("#stDevName").value.trim(), phone: $("#stDevPhone").value.trim() }, social }; const ok = await api("/rest/v1/app_settings", "POST", { key: "site", value, updated_at: new Date().toISOString() }, "resolution=merge-duplicates,return=minimal"); showToast(ok !== null ? "تم حفظ الإعدادات" : "تعذر الحفظ", ok !== null ? "ok" : "err"); };
 }
 
-document.addEventListener("DOMContentLoaded", () => { bindLogin(); if (getSession()) showApp(); else showLogin(); });
+// Test Supabase connection
+async function testSupabaseConnection() {
+  const btn = $("#testConn");
+  if (!btn) return;
+  const orig = btn.textContent;
+  btn.disabled = true; btn.textContent = "جارٍ الاختبار…";
+  try {
+    const r = await fetch(window.SUPABASE_CONFIG.url + "/rest/v1/", { 
+      headers: { apikey: window.SUPABASE_CONFIG.anonKey } 
+    });
+    if (r.ok) {
+      showToast("✅ الاتصال بـ Supabase يعمل بنجاح", "ok");
+    } else {
+      showToast("❌ فشل الاتصال: " + r.status + " " + r.statusText, "err");
+    }
+  } catch (e) {
+    showToast("❌ خطأ شبكة: " + e.message, "err");
+  }
+  btn.disabled = false; btn.textContent = orig;
+}
+
+document.addEventListener("DOMContentLoaded", () => { 
+  bindLogin(); 
+  $("#testConn")?.addEventListener("click", testSupabaseConnection);
+  if (getSession()) showApp(); else showLogin(); 
+});
