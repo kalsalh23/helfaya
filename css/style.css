@@ -519,7 +519,7 @@ button { cursor: pointer; border: 0; background: none; }
 .quick-nav-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; max-width: 720px; margin: 0 auto; }
 .quick-card {
   display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-  min-height: 46px; padding: 10px 12px; border-radius: 10px;
+  min-height: 46px; padding: 16px 12px; border-radius: 10px;
   background: var(--surface); border: 1px solid var(--border);
   color: var(--ink); transition: all var(--transition-fast); text-align: center;
 }
